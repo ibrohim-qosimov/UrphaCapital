@@ -23,7 +23,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Test> Tests { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Mentor> Mentors { get; set; }
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Domain.Entities.Student> Students {  get; set; }
         public DbSet<Homework> Homeworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
