@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.UseCases.Commands;
+using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities;
 
-namespace UrphaCapital.Application.UseCases.Handlers.CommandHandlers
+namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 {
     public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, ResponseModel>
     {

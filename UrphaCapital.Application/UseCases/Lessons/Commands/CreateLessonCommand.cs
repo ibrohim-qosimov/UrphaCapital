@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using UrphaCapital.Application.ViewModels;
 
-namespace UrphaCapital.Application.UseCases.Commands
+namespace UrphaCapital.Application.UseCases.Lessons.Commands
 {
     public class CreateLessonCommand : IRequest<ResponseModel>
     {

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrphaCapital.Domain.Entities;
+using UrphaCapital.Application.ViewModels;
 
-namespace UrphaCapital.Application.UseCases.Queries
+namespace UrphaCapital.Application.UseCases.Lessons.Commands
 {
-    public class GetLessonByIdQuery : IRequest<Lesson>
+    public class DeleteLessonCommand : IRequest<ResponseModel>
     {
         public long Id { get; set; }
     }

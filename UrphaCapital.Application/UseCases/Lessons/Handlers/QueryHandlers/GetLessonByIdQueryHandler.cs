@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.UseCases.Queries;
+using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Domain.Entities;
 
-namespace UrphaCapital.Application.UseCases.Handlers.QueryHandlers
+namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
 {
     public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, Lesson>
     {
