@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UrphaCapital.Application.AuthServices;
 
 namespace UrphaCapital.Application
 {
@@ -15,6 +16,7 @@ namespace UrphaCapital.Application
         {
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
