@@ -10,46 +10,12 @@ namespace UrphaCapital.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
-
-            builder.Services.AddUrphaCapitalApplicationDependencyInjection();
-            builder.Services.AddUrphaCapitalInfrastructureDependencyInjection(builder.Configuration);
-
-            builder.Services.AddControllers();
-
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            var startup = new Startup(builder.Configuration);
+            startup.ConfigureServices(builder.Services, builder.Logging);
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseStaticFiles();
-
-            app.UseCors();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
+            startup.Configure(app, builder.Environment);
         }
     }
 }
