@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.Models;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
+using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
@@ -42,7 +42,6 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
                 StatusCode = 200,
                 IsSuccess = true
             };
-
         }
         
     }
