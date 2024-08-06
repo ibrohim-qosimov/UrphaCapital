@@ -31,6 +31,7 @@ namespace UrphaCapital.Application.UseCases.Admins.Handlers.CommandHandlers
                 Email = request.Email,
                 Salt = salt,
                 PasswordHash = hashedPassword,
+                PhoneNumber = request.PhoneNumber,
                 Role = "Admin"
             };
 
