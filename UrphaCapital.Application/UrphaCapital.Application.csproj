@@ -19,8 +19,4 @@
 		<ProjectReference Include="..\UrphaCapital.Domain\UrphaCapital.Domain.csproj" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\StudentsCRUD\Queries\" />
-  </ItemGroup>
-
 </Project>
