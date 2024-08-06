@@ -30,6 +30,7 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
                 Email = request.Email,
                 PasswordHash = request.PasswordHash,
                 Salt = request.Salt,
+                Role = "Student",
                 CourseIds = request.CourseIds,
             };
 
