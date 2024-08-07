@@ -45,7 +45,6 @@ namespace UrphaCapital.API.Controllers
         {
             var query = new GetAllStudentsQuery()
             {
-                Id = Id
             };
 
             var response = await _mediator.Send(query, cancellation);
