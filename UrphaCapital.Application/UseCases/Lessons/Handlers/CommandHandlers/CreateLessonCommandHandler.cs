@@ -57,7 +57,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
             {
                 Name = request.Name,
                 CourseId = request.CourseId,
-                Video = "/LessonVideos/" + file.FileName,
+                Video = "/LessonVideos/" + fileName,
             };
 
             await _context.Lessons.AddAsync(category, cancellationToken);

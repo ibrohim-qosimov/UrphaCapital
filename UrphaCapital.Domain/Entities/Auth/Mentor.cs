@@ -17,5 +17,6 @@ namespace UrphaCapital.Domain.Entities.Auth
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string Role { get; set; }
+        public List<Course> Courses { get; set; }
     }
 }
