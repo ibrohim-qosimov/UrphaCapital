@@ -10,6 +10,5 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Queries
 {
     public class GetAllStudentsQuery: IRequest<IEnumerable<Student>>
     {
-        public long Id { get; set; }
     }
 }
