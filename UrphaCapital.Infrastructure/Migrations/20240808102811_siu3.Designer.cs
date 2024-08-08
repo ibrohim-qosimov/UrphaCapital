@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UrphaCapital.Infrastructure.Persistanse;
@@ -11,9 +12,11 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    partial class UrphaCapitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808102811_siu3")]
+    partial class siu3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,10 +218,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Homeworks", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -236,8 +236,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LessonId");
 
                     b.ToTable("Homeworks");
                 });
@@ -316,7 +314,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                 {
                     b.HasOne("UrphaCapital.Domain.Entities.Lesson", "Lesson")
                         .WithMany()
-                        .HasForeignKey("LessonId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

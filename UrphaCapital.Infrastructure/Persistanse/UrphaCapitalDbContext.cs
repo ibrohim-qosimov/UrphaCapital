@@ -24,11 +24,16 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Mentor> Mentors { get; set; }
         public DbSet<Student> Students {  get; set; }
-        public DbSet<Homework> Homeworks { get; set; }
+        public DbSet<Homeworks> Homeworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Homeworks>()
+    .HasOne(h => h.Lesson)
+    .WithMany()
+    .HasForeignKey(h => h.LessonId);
+
         }
 
         async ValueTask<int> IApplicationDbContext.SaveChangesAsync(CancellationToken cancellationToken)
