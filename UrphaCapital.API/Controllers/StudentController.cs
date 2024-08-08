@@ -41,7 +41,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("GetStudentByCourseId/{courseId}")]
-        public async Task<IEnumerable<Student>> GetStudentsByStudentId(long Id, CancellationToken cancellation)
+        public async Task<IEnumerable<Student>> GetStudentsByStudentId(CancellationToken cancellation)
         {
             var query = new GetAllStudentsQuery()
             {

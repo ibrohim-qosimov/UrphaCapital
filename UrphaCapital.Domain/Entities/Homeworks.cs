@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UrphaCapital.Domain.Entities
 {
-    public class Homework
+    public class Homeworks
     {
         public long Id { get; set; }
         public string Title { get; set; }
