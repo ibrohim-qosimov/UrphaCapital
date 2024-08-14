@@ -15,7 +15,7 @@ namespace UrphaCapital.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<IErrorSenderService, ErrorSenderService>();
+            services.AddSingleton<IErrorSenderService, ErrorSenderService>();
 
             return services;
         }

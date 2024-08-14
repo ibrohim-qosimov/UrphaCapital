@@ -72,7 +72,7 @@ namespace UrphaCapital.API.Controllers
         [EnableRateLimiting("sliding")]
         public async Task<string> Login(AdminLogin loginModel)
         {
-            throw new Exception("FFF");
+            throw new AbandonedMutexException();
         }
     }
 }
