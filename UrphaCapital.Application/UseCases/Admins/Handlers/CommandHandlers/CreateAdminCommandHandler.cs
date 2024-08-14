@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
@@ -14,16 +15,18 @@ namespace UrphaCapital.Application.UseCases.Admins.Handlers.CommandHandlers
     public class CreateAdminCommandHandler : IRequestHandler<CreateAdminCommand, ResponseModel>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public CreateAdminCommandHandler(IApplicationDbContext context)
+        public CreateAdminCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<ResponseModel> Handle(CreateAdminCommand request, CancellationToken cancellationToken)
         {
             var salt = Guid.NewGuid().ToString();
-            var hashedPassword = request.PasswordHash;
+            var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
 
             var admin = new Admin()
             {

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
 
@@ -18,11 +19,13 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UpdateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public UpdateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<ResponseModel> Handle(UpdateMentorCommand request, CancellationToken cancellationToken)
@@ -71,7 +74,7 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
             }
 
             var salt = Guid.NewGuid().ToString();
-            var hashedPassword = request.PasswordHash;
+            var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
 
             mentor.Name = request.Name;
             mentor.Description = request.Description;

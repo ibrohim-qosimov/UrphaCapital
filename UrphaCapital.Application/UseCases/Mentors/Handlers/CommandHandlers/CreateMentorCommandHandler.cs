@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using System.Diagnostics;
 using UrphaCapital.Application.Abstractions;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
@@ -12,11 +13,13 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public CreateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public CreateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<ResponseModel> Handle(CreateMentorCommand request, CancellationToken cancellationToken)
@@ -51,7 +54,7 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
             }
 
             var salt = Guid.NewGuid().ToString();
-            var hashedPassword = request.PasswordHash;
+            var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
 
             var mentor = new Mentor()
             {
