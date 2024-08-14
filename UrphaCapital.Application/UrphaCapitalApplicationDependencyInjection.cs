@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using UrphaCapital.Application.AuthServices;
+using UrphaCapital.Application.ErrorSender;
 using UrphaCapital.Application.HasherServices;
 
 namespace UrphaCapital.Application
@@ -14,6 +15,7 @@ namespace UrphaCapital.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IErrorSenderService, ErrorSenderService>();
 
             return services;
         }

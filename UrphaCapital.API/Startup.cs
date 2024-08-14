@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
+using Telegram.Bot;
 using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
 using UrphaCapital.Infrastructure;
@@ -37,6 +38,14 @@ namespace UrphaCapital.API
 
             services.AddUrphaCapitalApplicationDependencyInjection();
             services.AddUrphaCapitalInfrastructureDependencyInjection(configRoot);
+
+
+            services.AddSingleton<TelegramBotClient>(provider =>
+            {
+                var botToken = $"{configRoot.GetSection("TelegramBot").GetSection("API").Value}";
+                return new TelegramBotClient(botToken);
+            });
+
 
             var logger = new LoggerConfiguration()
                .ReadFrom.Configuration(configRoot)
