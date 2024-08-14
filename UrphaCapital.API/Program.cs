@@ -10,7 +10,7 @@ namespace UrphaCapital.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var startup = new Startup(builder.Configuration);
+            var startup = new Startup(builder.Configuration, builder.Logging);
             startup.ConfigureServices(builder.Services, builder.Logging);
 
             var app = builder.Build();

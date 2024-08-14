@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Serilog;
+using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
 using UrphaCapital.Infrastructure;
 
@@ -10,9 +12,15 @@ namespace UrphaCapital.API
         {
             get;
         }
-        public Startup(IConfiguration configuration)
+
+        public ILoggingBuilder logging
+        {
+            get; set;
+        }
+        public Startup(IConfiguration configuration, ILoggingBuilder logging)
         {
             configRoot = configuration;
+            this.logging = logging;
         }
         public void ConfigureServices(IServiceCollection services, ILoggingBuilder Logging)
         {
@@ -29,11 +37,20 @@ namespace UrphaCapital.API
             services.AddUrphaCapitalApplicationDependencyInjection();
             services.AddUrphaCapitalInfrastructureDependencyInjection(configRoot);
 
+            var logger = new LoggerConfiguration()
+               .ReadFrom.Configuration(configRoot)
+               .Enrich.FromLogContext()
+               .CreateLogger();
+            logging.AddSerilog(logger);
+
             services.AddControllers();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
+
         }
+
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             if (app.Environment.IsDevelopment())
@@ -41,6 +58,8 @@ namespace UrphaCapital.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseHttpsRedirection();
 

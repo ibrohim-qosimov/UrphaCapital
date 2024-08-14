@@ -69,7 +69,7 @@ namespace UrphaCapital.API.Controllers
         [HttpPost("Login")]
         public async Task<string> Login(AdminLogin loginModel)
         {
-            return "Not implemented yet";
+            throw new Exception("FFF");
         }
     }
 }
