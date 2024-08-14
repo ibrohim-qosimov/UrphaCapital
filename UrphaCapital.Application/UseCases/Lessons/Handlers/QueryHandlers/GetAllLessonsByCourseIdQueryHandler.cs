@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,23 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
     public class GetAllLessonsByCourseIdQueryHandler : IRequestHandler<GetAllLessonsByCourseIdQuery, IEnumerable<Lesson>>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMemoryCache _memoryCache;
 
-        public GetAllLessonsByCourseIdQueryHandler(IApplicationDbContext context)
+        public GetAllLessonsByCourseIdQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
         {
             _context = context;
+            _memoryCache = memoryCache;
         }
 
         public async Task<IEnumerable<Lesson>> Handle(GetAllLessonsByCourseIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Lessons
+            var value = _memoryCache.Get("lesson");
+
+            if (value == null)
+            {
+                _memoryCache.Set(
+                        key: "lesson",
+                        value: await _context.Lessons
             .Where(l => l.CourseId == request.CourseId)
                 .Select(x => new Lesson
                 {
@@ -31,7 +40,17 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
                     Name = x.Name,
                     CourseId = x.CourseId
                 })
-                    .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken),
+                         options: new MemoryCacheEntryOptions()
+                         {
+                             SlidingExpiration = TimeSpan.FromSeconds(5),
+                             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(20),
+                             Size = 2048
+                         });
+
+            }
+
+            return _memoryCache.Get("lesson") as IEnumerable<Lesson>;
 
         }
     }

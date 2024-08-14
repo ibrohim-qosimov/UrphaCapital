@@ -57,6 +57,8 @@ namespace UrphaCapital.API
                 });
             });
 
+            services.AddMemoryCache(options => options.SizeLimit = 2048);
+
             services.AddControllers();
 
             services.AddEndpointsApiExplorer();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Courses.Commands;
@@ -13,11 +14,13 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IMemoryCache _memoryCache;
 
-        public UpdateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public UpdateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ResponseModel> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
@@ -73,6 +76,9 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
             course.MentorId = request.MentorId;
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            _memoryCache.Remove("course-all");
+            _memoryCache.Remove("course");
 
             return new ResponseModel()
             {

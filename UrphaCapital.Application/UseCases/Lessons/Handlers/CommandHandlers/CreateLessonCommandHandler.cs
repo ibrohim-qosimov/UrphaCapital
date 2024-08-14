@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,10 +18,13 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public CreateLessonCommandHandler(IApplicationDbContext context, IWebHostEnvironment web)
+        private readonly IMemoryCache _memoryCache;
+
+        public CreateLessonCommandHandler(IApplicationDbContext context, IWebHostEnvironment web, IMemoryCache memoryCache)
         {
             _context = context;
             _webHostEnvironment = web;
+            _memoryCache = memoryCache;
         }
         public async Task<ResponseModel> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
         {
@@ -62,6 +66,8 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 
             await _context.Lessons.AddAsync(category, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
+            _memoryCache.Remove("lesson");
 
             return new ResponseModel()
             {
