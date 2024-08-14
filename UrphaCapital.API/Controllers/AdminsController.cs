@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -39,6 +40,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting("sliding")]
         public async Task<IEnumerable<Admin>> GetAdmins(CancellationToken cancellation)
         {
             var query = new GetAllAdminsQuery();
@@ -67,6 +69,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost("Login")]
+        [EnableRateLimiting("sliding")]
         public async Task<string> Login(AdminLogin loginModel)
         {
             throw new Exception("FFF");

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
 using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
@@ -43,6 +44,19 @@ namespace UrphaCapital.API
                .CreateLogger();
             logging.AddSerilog(logger);
 
+            services.AddRateLimiter(x =>
+            {
+                x.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+                x.AddSlidingWindowLimiter("sliding", options =>
+                {
+                    options.Window = TimeSpan.FromSeconds(60);
+                    options.SegmentsPerWindow = 6;
+                    options.PermitLimit = 60;
+                    options.QueueLimit = 10;
+                });
+            });
+
             services.AddControllers();
 
             services.AddEndpointsApiExplorer();
@@ -62,6 +76,8 @@ namespace UrphaCapital.API
             app.UseMiddleware<GlobalExceptionHandler>();
 
             app.UseHttpsRedirection();
+
+            app.UseRateLimiter();
 
             app.UseCors();
 
