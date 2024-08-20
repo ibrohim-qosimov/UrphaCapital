@@ -19,6 +19,7 @@ namespace UrphaCapital.API
         {
             get; set;
         }
+
         public Startup(IConfiguration configuration, ILoggingBuilder logging)
         {
             configRoot = configuration;
