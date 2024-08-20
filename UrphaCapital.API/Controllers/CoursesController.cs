@@ -50,8 +50,8 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet()]
-        public async Task<IEnumerable<Course>> GetAll(long mentorId, CancellationToken cancellation)
+        [HttpGet]
+        public async Task<IEnumerable<Course>> GetAll(CancellationToken cancellation)
         {
             var query = new GetAllCoursesQuery();
 
