@@ -1,12 +1,11 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.AuthServices;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
@@ -17,11 +16,13 @@ namespace UrphaCapital.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IAuthService _authService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public AdminsController(IMediator mediator, IAuthService authService)
+        public AdminsController(IMediator mediator, IAuthService authService, IPasswordHasher passwordHasher)
         {
             _mediator = mediator;
             _authService = authService;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost]
@@ -73,8 +74,35 @@ namespace UrphaCapital.API.Controllers
 
         [HttpPost("Login")]
         [EnableRateLimiting("sliding")]
-        public async Task<string> Login(AdminLogin loginModel)
+        public async Task<string> Login(AdminLogin loginModel, CancellationToken cancellation)
         {
+            if (ModelState.IsValid == false)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var query = new GetAdminByEmailQuery()
+            {
+                Email = loginModel.Email,
+            };
+
+            var admin = await _mediator.Send(query, cancellation);
+
+            if (admin == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var isPasswordTrue = _passwordHasher.Verify(admin.PasswordHash, loginModel.Password, admin.Salt);
+
+            if (!isPasswordTrue)
+            {
+                throw new InvalidOperationException("Password is incorrect");
+            }
+
+            var token = _authService.GenerateToken(admin);
+
+            return token;
         }
     }
 }
