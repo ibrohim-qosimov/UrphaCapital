@@ -49,16 +49,17 @@ jobs:
         echo IIS serverga deploy qilinmoqda...
         
         # IIS App Pool'ni to'xtatish
-        Stop-WebAppPool -Name 'DefaultAppPool'
+        
+        #Stop-WebAppPool -Name 'DefaultAppPool'
         
         # Web-saytni to'xtatish
-        Stop-Website -Name 'Default Web Site'
+        #Stop-Website -Name 'Default Web Site'
         
         # API'ni IIS serverga publish qilish
-        dotnet publish ./UrphaCapital.API/UrphaCapital.API.csproj -c Release -o 'C:\inetpub\wwwroot\UrphaCapital'
+        #dotnet publish ./UrphaCapital.API/UrphaCapital.API.csproj -c Release -o 'C:\inetpub\wwwroot\UrphaCapital'
         
         # IIS App Pool'ni qayta ishga tushirish
-        Start-WebAppPool -Name 'DefaultAppPool'
+        #Start-WebAppPool -Name 'DefaultAppPool'
         
         # Web-saytni qayta ishga tushirish
-        Start-Website -Name 'Default Web Site'
+        #Start-Website -Name 'Default Web Site'
