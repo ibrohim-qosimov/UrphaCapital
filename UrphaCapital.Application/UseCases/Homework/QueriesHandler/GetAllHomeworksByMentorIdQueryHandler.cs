@@ -26,7 +26,15 @@ namespace UrphaCapital.Application.UseCases.Homework.QueriesHandler
                 .Include(x => x.Lesson)
                     .ThenInclude(x => x.Course)
                         .Where(x => x.Lesson.Course.MentorId == request.MentorId)
-                            .ToListAsync();
+                            .Select(selector => new Homeworks() 
+                            {
+                                Id = selector.Id,
+                                LessonId = selector.LessonId,
+                                Description = selector.Description,
+                                Title = selector.Title,
+                                FILE = selector.FILE,
+                            })
+                                .ToListAsync(cancellationToken);
         }
     }
 }
