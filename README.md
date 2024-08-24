@@ -1,2 +1,2 @@
 # UrphaCapital
-day 1
+gay 1
