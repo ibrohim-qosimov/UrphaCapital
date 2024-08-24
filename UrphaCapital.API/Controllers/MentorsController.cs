@@ -66,7 +66,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<string> Login(AdminLogin loginModel)
+        public async Task<string> Login(MentorLogin loginModel)
         {
             return "Not implemented yet";
         }

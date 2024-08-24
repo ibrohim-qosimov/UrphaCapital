@@ -1,14 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;
-using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
-using UrphaCapital.Application.UseCases.Mentors.Queries;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities;
-using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
 {
@@ -55,9 +51,9 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
         [HttpGet("{mentorId}")]
-        public async Task<IEnumerable<Homeworks>> GetAllHomeworksByMentorId(long mentorId,CancellationToken cancellation)
+        public async Task<IEnumerable<Homeworks>> GetAllHomeworksByMentorId(long mentorId, CancellationToken cancellation)
         {
-            var query = new GetAllHomeworksByMentorIdQuery()
+            var query = new Application.UseCases.Homework.Queries.GetAllHomeworksByMentorIdQuery()
             {
                 MentorId = mentorId
             };
