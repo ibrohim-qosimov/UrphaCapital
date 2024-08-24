@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.UseCases.Mentors.Queries;
+using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
 
@@ -66,9 +68,36 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<string> Login(MentorLogin loginModel)
+        [EnableRateLimiting("sliding")]
+        public async Task<string> Login(MentorLogin loginModel, CancellationToken cancellation)
         {
-            return "Not implemented yet";
+            if (ModelState.IsValid == false)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var query = new GetAMentorByEmailQuery()
+            {
+                Email = loginModel.Email,
+            };
+
+            var student = await _mediator.Send(query, cancellation);
+
+            if (student == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var isPasswordTrue = _passwordHasher.Verify(student.PasswordHash, loginModel.Password, student.Salt);
+
+            if (!isPasswordTrue)
+            {
+                throw new InvalidOperationException("Password is incorrect");
+            }
+
+            var token = _authService.GenerateToken(student);
+
+            return token;
         }
     }
 }
