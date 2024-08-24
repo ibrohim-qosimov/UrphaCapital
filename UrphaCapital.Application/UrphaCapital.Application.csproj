@@ -7,6 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="UseCases\Homework\QueriesHandler\GetAllHomeworksByLessonIdQueryHandler.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="MediatR" Version="11.0.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
@@ -17,12 +21,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\UrphaCapital.Domain\UrphaCapital.Domain.csproj" />
+	  <None Include="UseCases\Homework\QueriesHandler\GetAllHomeworksByLessonIdQueryHandler.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="UseCases\Homework\QueriesHandler\" />
-	  <Folder Include="UseCases\Homework\Queries\" />
+		<ProjectReference Include="..\UrphaCapital.Domain\UrphaCapital.Domain.csproj" />
 	</ItemGroup>
 
 </Project>
