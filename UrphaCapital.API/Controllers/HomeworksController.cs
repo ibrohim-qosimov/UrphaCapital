@@ -24,5 +24,21 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
+        [HttpDelete("{id}")]
+        public async Task<ResponseModel> RemoveHomework(long id, CancellationToken cancellation)
+        {
+            var command = new DeleteHomeworkCommand { Id = id };
+
+            var response = await _mediator.Send(command, cancellation);
+
+            return response;
+        }
+        [HttpPut]
+        public async Task<ResponseModel> PutHomework([FromForm] UpdateHomeworkCommand command, CancellationToken cancellation)
+        {
+            var response = await _mediator.Send(command, cancellation);
+
+            return response;
+        }
     }
 }
