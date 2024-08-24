@@ -40,12 +40,10 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet("GetStudentByCourseId/{courseId}")]
+        [HttpGet]
         public async Task<IEnumerable<Student>> GetStudentsByStudentId(CancellationToken cancellation)
         {
-            var query = new GetAllStudentsQuery()
-            {
-            };
+            var query = new GetAllStudentsQuery();
 
             var response = await _mediator.Send(query, cancellation);
 

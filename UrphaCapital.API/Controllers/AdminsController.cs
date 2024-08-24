@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using UrphaCapital.Application.AuthServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -15,10 +16,12 @@ namespace UrphaCapital.API.Controllers
     public class AdminsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IAuthService _authService;
 
-        public AdminsController(IMediator mediator)
+        public AdminsController(IMediator mediator, IAuthService authService)
         {
             _mediator = mediator;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -72,7 +75,6 @@ namespace UrphaCapital.API.Controllers
         [EnableRateLimiting("sliding")]
         public async Task<string> Login(AdminLogin loginModel)
         {
-            throw new AbandonedMutexException();
         }
     }
 }
