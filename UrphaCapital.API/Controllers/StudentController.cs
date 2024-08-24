@@ -1,6 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
+using UrphaCapital.Application.AuthServices;
+using UrphaCapital.Application.HasherServices;
+using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
@@ -16,10 +20,14 @@ namespace UrphaCapital.API.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IAuthService _authService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public StudentController(IMediator mediator)
+        public StudentController(IMediator mediator, IAuthService authService, IPasswordHasher passwordHasher)
         {
             _mediator = mediator;
+            _authService = authService;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost]
@@ -66,6 +74,39 @@ namespace UrphaCapital.API.Controllers
             var response = await _mediator.Send(command, cancellation);
 
             return response;
+        }
+
+        [HttpPost("Login")]
+        [EnableRateLimiting("sliding")]
+        public async Task<string> Login(AdminLogin loginModel, CancellationToken cancellation)
+        {
+            if (ModelState.IsValid == false)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var query = new GetStudentByEmailQuery()
+            {
+                Email = loginModel.Email,
+            };
+
+            var student = await _mediator.Send(query, cancellation);
+
+            if (student == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var isPasswordTrue = _passwordHasher.Verify(student.PasswordHash, loginModel.Password, student.Salt);
+
+            if (!isPasswordTrue)
+            {
+                throw new InvalidOperationException("Password is incorrect");
+            }
+
+            var token = _authService.GenerateToken(student);
+
+            return token;
         }
     }
 }
