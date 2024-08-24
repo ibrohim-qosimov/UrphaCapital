@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.AuthServices;
@@ -7,7 +6,6 @@ using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
@@ -103,6 +101,7 @@ namespace UrphaCapital.API.Controllers
             }
 
             var token = _authService.GenerateToken(admin);
+
             return token;
         }
     }
