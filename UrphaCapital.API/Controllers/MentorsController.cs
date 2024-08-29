@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using UrphaCapital.Application.AuthServices;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.UseCases.Mentors.Queries;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
@@ -15,10 +17,14 @@ namespace UrphaCapital.API.Controllers
     public class MentorsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IAuthService _authService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public MentorsController(IMediator mediator)
+        public MentorsController(IMediator mediator, IPasswordHasher passwordHasher, IAuthService authService)
         {
             _mediator = mediator;
+            _passwordHasher = passwordHasher;
+            _authService = authService;
         }
 
         [HttpPost]
