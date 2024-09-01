@@ -19,7 +19,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ResponseModel> Create(CreateCourseCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> Create([FromForm] CreateCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 
@@ -60,7 +60,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ResponseModel> Update(UpdateCourseCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> Update([FromForm] UpdateCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 

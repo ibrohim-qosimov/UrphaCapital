@@ -19,7 +19,7 @@ namespace UrphaCapital.API.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<ResponseModel> PostLesson(CreateHomeworkCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> PostLesson([FromForm] CreateHomeworkCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 

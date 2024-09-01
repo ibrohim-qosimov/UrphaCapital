@@ -26,7 +26,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ResponseModel> PostAdmin(CreateAdminCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> PostAdmin([FromBody] CreateAdminCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 
@@ -55,7 +55,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
-        public async Task<ResponseModel> PutAdmin(UpdateAdminCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> PutAdmin([FromBody] UpdateAdminCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 
@@ -74,7 +74,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpPost("Login")]
         [EnableRateLimiting("sliding")]
-        public async Task<string> Login(AdminLogin loginModel, CancellationToken cancellation)
+        public async Task<string> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
         {
             if (ModelState.IsValid == false)
             {
