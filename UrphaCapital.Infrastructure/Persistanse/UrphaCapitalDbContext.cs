@@ -43,7 +43,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
             modelBuilder.Entity<Admin>().HasData(new Admin()
             {
                 Id = 1,
-                Name = "Ozodali",
+                Name = "Ozod Ali",
                 Email = "admin@gmail.com",
                 PhoneNumber = "+998934013443",
                 Role = "SuperAdmin",

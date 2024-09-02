@@ -88,11 +88,11 @@ namespace UrphaCapital.Infrastructure.Migrations
                         {
                             Id = 1L,
                             Email = "admin@gmail.com",
-                            Name = "Ozodali",
-                            PasswordHash = "WNnk4s2M362PsRP5CEEW8rcEZj8oDrzMcAUzj33CV+w=",
+                            Name = "Ozod Ali",
+                            PasswordHash = "SBopWV1rzVWZMaKR022dLwbcOvdcNtOY07Qdfv6STFI=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "e253cb64-696a-4acd-b812-ca1bb32d371b"
+                            Salt = "30b58e16-f7da-4761-babf-3b2dd79dbeea"
                         });
                 });
 
