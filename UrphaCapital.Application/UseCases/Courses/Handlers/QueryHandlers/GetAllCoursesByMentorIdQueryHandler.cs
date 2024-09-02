@@ -28,14 +28,17 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.QueryHandlers
                 _memoryCache.Set(
                         key: "course",
                         value: await _context.Courses
-                        .Where(l => l.MentorId == request.MentorId)
-                            .Select(x => new Course
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                                MentorId = x.MentorId
-                            })
-                            .ToListAsync(cancellationToken),
+                            .Where(l => l.MentorId == request.MentorId)
+                                .Skip(request.Index - 1)
+                                    .Take(request.Count)
+                                        .Select(x => new Course()
+                                        {
+                                            Id = x.Id,
+                                            Name = x.Name,
+                                            MentorId = x.MentorId
+                                        })
+                                        .ToListAsync(cancellationToken),
+
                          options: new MemoryCacheEntryOptions()
                          {
                              SlidingExpiration = TimeSpan.FromSeconds(5),

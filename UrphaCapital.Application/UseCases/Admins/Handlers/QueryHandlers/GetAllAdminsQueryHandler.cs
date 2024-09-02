@@ -22,7 +22,10 @@ namespace UrphaCapital.Application.UseCases.Admins.Handlers.QueryHandlers
 
         public async Task<IEnumerable<Admin>> Handle(GetAllAdminsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Admins.ToListAsync(cancellationToken);
+            return await _context.Admins
+                .Skip(request.Index - 1)
+                    .Take(request.Count)
+                        .ToListAsync(cancellationToken);
         }
     }
 }

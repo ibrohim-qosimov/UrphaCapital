@@ -11,5 +11,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Queries
     public class GetAllLessonsByCourseIdQuery : IRequest<IEnumerable<Lesson>>
     {
         public long CourseId { get; set; }
+        public int Index { get; set; }
+        public int Count { get; set; }
     }
 }

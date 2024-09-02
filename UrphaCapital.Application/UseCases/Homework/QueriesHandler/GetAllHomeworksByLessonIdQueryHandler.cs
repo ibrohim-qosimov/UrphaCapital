@@ -24,7 +24,9 @@ namespace UrphaCapital.Application.UseCases.Homework.QueriesHandler
         {
             return await _context.Homeworks
                 .Where(x => x.LessonId == request.LessonId)
-                .ToListAsync(cancellationToken);
+                    .Skip(request.Index - 1)
+                        .Take(request.Count)
+                            .ToListAsync(cancellationToken);
         }
     }
 }

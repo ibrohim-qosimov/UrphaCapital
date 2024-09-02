@@ -12,7 +12,7 @@ using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Homework.QueriesHandler
 {
-    public class GetAllHomeworksQueryHandler : IRequestHandler<GetAllHomeworksQuery,IEnumerable<Homeworks>>
+    public class GetAllHomeworksQueryHandler : IRequestHandler<GetAllHomeworksQuery, IEnumerable<Homeworks>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
@@ -31,7 +31,10 @@ namespace UrphaCapital.Application.UseCases.Homework.QueriesHandler
                 _memoryCache.Set(
                         key: "homework",
                         value: await _context.Homeworks
-                .ToListAsync(cancellationToken),
+                            .Skip(request.Index - 1)
+                                .Take(request.Count)
+                                    .Include(x => x.Lesson)
+                                .ToListAsync(cancellationToken),
                          options: new MemoryCacheEntryOptions()
                          {
                              SlidingExpiration = TimeSpan.FromSeconds(5),

@@ -26,7 +26,12 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.QueryHandlers
             {
                 _memoryCache.Set(
                         key: "course-all",
-                        value: await _context.Courses.ToListAsync(cancellationToken),
+
+                        value: await _context.Courses
+                            .Skip(request.Index - 1)
+                                .Take(request.Count)
+                                    .ToListAsync(cancellationToken),
+
                          options: new MemoryCacheEntryOptions()
                          {
                              SlidingExpiration = TimeSpan.FromSeconds(5),

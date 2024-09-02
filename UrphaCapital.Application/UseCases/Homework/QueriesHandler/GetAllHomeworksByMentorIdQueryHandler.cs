@@ -26,6 +26,8 @@ namespace UrphaCapital.Application.UseCases.Homework.QueriesHandler
                 .Include(x => x.Lesson)
                     .ThenInclude(x => x.Course)
                         .Where(x => x.Lesson.Course.MentorId == request.MentorId)
+                            .Skip(request.Index - 1)
+                                .Take(request.Count)
                             .Select(selector => new Homeworks() 
                             {
                                 Id = selector.Id,

@@ -17,7 +17,10 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.QueryHandlers
 
         public async Task<IEnumerable<Mentor>> Handle(GetAllMentorsQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Mentors.ToListAsync(cancellationToken);
+            return await _context.Mentors
+                .Skip(request.Index - 1)
+                    .Take(request.Count)
+                        .ToListAsync(cancellationToken);
         }
     }
 }
