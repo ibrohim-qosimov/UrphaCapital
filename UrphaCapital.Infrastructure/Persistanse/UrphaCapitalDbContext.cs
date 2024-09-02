@@ -23,7 +23,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Test> Tests { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Mentor> Mentors { get; set; }
-        public DbSet<Student> Students {  get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<Homeworks> Homeworks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,6 +33,17 @@ namespace UrphaCapital.Infrastructure.Persistanse
     .HasOne(h => h.Lesson)
     .WithMany()
     .HasForeignKey(h => h.LessonId);
+
+            modelBuilder.Entity<Admin>().HasData(new Admin()
+            {
+                Id = 1,
+                Name = "Ozodali",
+                Email = "admin@gmail.com",
+                PhoneNumber = "+998934013443",
+                Role = "SuperAdmin",
+                PasswordHash = "Admin01!",
+                Salt = Guid.NewGuid().ToString()
+            });
 
         }
 
