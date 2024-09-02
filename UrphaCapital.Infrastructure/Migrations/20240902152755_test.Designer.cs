@@ -12,8 +12,8 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20240902120945_seedData")]
-    partial class seedData
+    [Migration("20240902152755_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                             PasswordHash = "Admin01!",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "ff24169f-636e-400a-81b1-b700603fa826"
+                            Salt = "b05c0da6-5080-4bfc-80e7-f01917f47849"
                         });
                 });
 

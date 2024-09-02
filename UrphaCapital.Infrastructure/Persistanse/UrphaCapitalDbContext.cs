@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
@@ -13,12 +14,10 @@ namespace UrphaCapital.Infrastructure.Persistanse
 {
     public class UrphaCapitalDbContext : DbContext, IApplicationDbContext
     {
-        private readonly IPasswordHasher _passwordHasher;
-        public UrphaCapitalDbContext(DbContextOptions<UrphaCapitalDbContext> options, IPasswordHasher passwordHasher)
+        public UrphaCapitalDbContext(DbContextOptions<UrphaCapitalDbContext> options)
             : base(options)
         {
             Database.Migrate();
-            _passwordHasher = passwordHasher;
         }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -40,7 +39,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
 
             var password = "Admin01!";
             var salt = Guid.NewGuid().ToString();
-            var hashedPass = _passwordHasher.Encrypt(password, salt);
+            var hashedPass = Encrypt(password, salt);
             modelBuilder.Entity<Admin>().HasData(new Admin()
             {
                 Id = 1,
@@ -48,8 +47,8 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 Email = "admin@gmail.com",
                 PhoneNumber = "+998934013443",
                 Role = "SuperAdmin",
-                PasswordHash = hashedPass,
-                Salt = salt,
+                PasswordHash = "Admin01!",
+                Salt = Guid.NewGuid().ToString()
             });
 
         }
@@ -58,5 +57,19 @@ namespace UrphaCapital.Infrastructure.Persistanse
         {
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+        public string Encrypt(string password, string salt)
+        {
+            using (var algorithm = new Rfc2898DeriveBytes(
+                password: password,
+                salt: Encoding.UTF8.GetBytes(salt),
+                iterations: 1000,
+                hashAlgorithm: HashAlgorithmName.SHA256))
+            {
+                var bytes = algorithm.GetBytes(32);
+                return Convert.ToBase64String(bytes);
+            }
+        }
+
     }
 }

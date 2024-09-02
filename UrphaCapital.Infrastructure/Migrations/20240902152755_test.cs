@@ -81,7 +81,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                     Subtitle = table.Column<string>(type: "text", nullable: false),
                     Picture = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<string>(type: "text", nullable: false),
-                    MenthorId = table.Column<long>(type: "bigint", nullable: false),
                     MentorId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -178,6 +177,11 @@ namespace UrphaCapital.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Admins",
+                columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
+                values: new object[] { 1L, "admin@gmail.com", "Ozodali", "Admin01!", "+998934013443", "SuperAdmin", "b05c0da6-5080-4bfc-80e7-f01917f47849" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",

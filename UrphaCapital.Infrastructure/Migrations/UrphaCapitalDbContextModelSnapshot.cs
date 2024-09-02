@@ -92,7 +92,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                             PasswordHash = "Admin01!",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "ff24169f-636e-400a-81b1-b700603fa826"
+                            Salt = "b05c0da6-5080-4bfc-80e7-f01917f47849"
                         });
                 });
 
