@@ -25,6 +25,7 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
+        
         [HttpDelete("{id}")]
         public async Task<ResponseModel> RemoveHomework(long id, CancellationToken cancellation)
         {
@@ -34,6 +35,7 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
+        
         [HttpPut]
         public async Task<ResponseModel> PutHomework([FromForm] UpdateHomeworkCommand command, CancellationToken cancellation)
         {
@@ -41,21 +43,44 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
-        [HttpGet]
-        public async Task<IEnumerable<Homeworks>> GetAll(CancellationToken cancellation)
+        
+        [HttpGet("{index}/{count}")]
+        public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllHomeworksQuery();
+            var query = new GetAllHomeworksQuery()
+            {
+                Index = index,
+                Count = count,
+            };
 
             var response = await _mediator.Send(query, cancellation);
 
             return response;
         }
-        [HttpGet("{mentorId}")]
-        public async Task<IEnumerable<Homeworks>> GetAllHomeworksByMentorId(long mentorId, CancellationToken cancellation)
+
+        [HttpGet("{mentorId}/{index}/{count}")]
+        public async Task<IEnumerable<Homeworks>> GetAllHomeworksByMentorId(int index, int count, long mentorId, CancellationToken cancellation)
         {
             var query = new Application.UseCases.Homework.Queries.GetAllHomeworksByMentorIdQuery()
             {
-                MentorId = mentorId
+                MentorId = mentorId,
+                Index = index,
+                Count = count
+            };
+
+            var response = await _mediator.Send(query, cancellation);
+
+            return response;
+        }
+
+        [HttpGet("bylesson/{lessonId}/{index}/{count}")]
+        public async Task<IEnumerable<Homeworks>> GetAllHomeworksByLessonId(int index, int count, long lessonId, CancellationToken cancellation)
+        {
+            var query = new Application.UseCases.Homework.Queries.GetAllHomeworksByLessonIdQuery()
+            {
+                LessonId = lessonId,
+                Index = index,
+                Count = count
             };
 
             var response = await _mediator.Send(query, cancellation);

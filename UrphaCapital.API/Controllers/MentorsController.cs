@@ -45,10 +45,14 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Mentor>> GetAll(CancellationToken cancellation)
+        [HttpGet("{index}/{count}")]
+        public async Task<IEnumerable<Mentor>> GetAll(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllMentorsQuery();
+            var query = new GetAllMentorsQuery()
+            {
+                Index = index,
+                Count = count
+            };
 
             var response = await _mediator.Send(query, cancellation);
 

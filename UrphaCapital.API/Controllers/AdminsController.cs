@@ -43,11 +43,15 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet]
+        [HttpGet("{index}/{count}")]
         [EnableRateLimiting("sliding")]
-        public async Task<IEnumerable<Admin>> GetAdmins(CancellationToken cancellation)
+        public async Task<IEnumerable<Admin>> GetAdmins(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllAdminsQuery();
+            var query = new GetAllAdminsQuery()
+            {
+                Index = index,
+                Count = count
+            };
 
             var response = await _mediator.Send(query, cancellation);
 

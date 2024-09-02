@@ -28,7 +28,7 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet("GetLessonById/{id}")]
+        [HttpGet("{id}")]
         public async Task<Lesson> GetLessonById(long id, CancellationToken cancellation)
         {
             var query = new GetLessonByIdQuery { Id = id };
@@ -38,12 +38,14 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet("GetLessonsByCourseId/{courseId}")]
-        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(long courseId, CancellationToken cancellation)
+        [HttpGet("{courseId}/{index}/{count}")]
+        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(int index, int count, long courseId, CancellationToken cancellation)
         {
             var query = new GetAllLessonsByCourseIdQuery()
             {
-                CourseId = courseId
+                CourseId = courseId,
+                Index = index,
+                Count = count
             };
 
             var response = await _mediator.Send(query, cancellation);

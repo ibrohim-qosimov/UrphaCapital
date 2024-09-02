@@ -38,7 +38,7 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet("GetStudentById/{id}")]
+        [HttpGet("{id}")]
         public async Task<Student> GetStudentById(long id, CancellationToken cancellation)
         {
             var query = new GetAllStudentsByIdQuery { Id = id };
@@ -48,10 +48,14 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Student>> GetStudentsByStudentId(CancellationToken cancellation)
+        [HttpGet("{index}/{count}")]
+        public async Task<IEnumerable<Student>> GetStudentsByStudentId(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllStudentsQuery();
+            var query = new GetAllStudentsQuery()
+            {
+                Index = index,
+                Count = count
+            };
 
             var response = await _mediator.Send(query, cancellation);
 

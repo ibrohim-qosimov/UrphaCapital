@@ -36,12 +36,14 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet("GetAllByMentorId/{mentorId}")]
-        public async Task<IEnumerable<Course>> GetAllByMentorId(long mentorId, CancellationToken cancellation)
+        [HttpGet("GetAllByMentorId/{mentorId}/{index}/{count}")]
+        public async Task<IEnumerable<Course>> GetAllByMentorId(long mentorId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllCoursesByMentorIdQuery()
             {
-                MentorId = mentorId
+                MentorId = mentorId,
+                Index = index,
+                Count = count
             };
 
             var response = await _mediator.Send(query, cancellation);
@@ -49,10 +51,14 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<Course>> GetAll(CancellationToken cancellation)
+        [HttpGet("{index}/{count}")]
+        public async Task<IEnumerable<Course>> GetAll(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllCoursesQuery();
+            var query = new GetAllCoursesQuery()
+            {
+                Index = index,
+                Count = count
+            };
 
             var response = await _mediator.Send(query, cancellation);
 
