@@ -47,8 +47,8 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 Email = "admin@gmail.com",
                 PhoneNumber = "+998934013443",
                 Role = "SuperAdmin",
-                PasswordHash = "Admin01!",
-                Salt = Guid.NewGuid().ToString()
+                PasswordHash = hashedPass,
+                Salt = salt
             });
 
         }
