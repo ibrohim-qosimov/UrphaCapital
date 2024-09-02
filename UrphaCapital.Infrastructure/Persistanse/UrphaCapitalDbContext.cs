@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
+using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
@@ -12,10 +13,12 @@ namespace UrphaCapital.Infrastructure.Persistanse
 {
     public class UrphaCapitalDbContext : DbContext, IApplicationDbContext
     {
-        public UrphaCapitalDbContext(DbContextOptions<UrphaCapitalDbContext> options)
+        private readonly IPasswordHasher _passwordHasher;
+        public UrphaCapitalDbContext(DbContextOptions<UrphaCapitalDbContext> options, IPasswordHasher passwordHasher)
             : base(options)
         {
             Database.Migrate();
+            _passwordHasher = passwordHasher;
         }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -34,6 +37,10 @@ namespace UrphaCapital.Infrastructure.Persistanse
     .WithMany()
     .HasForeignKey(h => h.LessonId);
 
+
+            var password = "Admin01!";
+            var salt = Guid.NewGuid().ToString();
+            var hashedPass = _passwordHasher.Encrypt(password, salt);
             modelBuilder.Entity<Admin>().HasData(new Admin()
             {
                 Id = 1,
@@ -41,8 +48,8 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 Email = "admin@gmail.com",
                 PhoneNumber = "+998934013443",
                 Role = "SuperAdmin",
-                PasswordHash = "Admin01!",
-                Salt = Guid.NewGuid().ToString()
+                PasswordHash = hashedPass,
+                Salt = salt,
             });
 
         }
