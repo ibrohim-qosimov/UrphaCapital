@@ -27,6 +27,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Mentor> Mentors { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Homeworks> Homeworks { get; set; }
+        public DbSet<Help> Helps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

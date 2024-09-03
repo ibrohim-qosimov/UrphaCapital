@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
+using System.Text.Json.Serialization;
 using Telegram.Bot;
 using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
@@ -69,8 +70,11 @@ namespace UrphaCapital.API
 
             services.AddMemoryCache(options => options.SizeLimit = 2048);
 
-            services.AddControllers();
-
+            services.AddControllers()
+                            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 

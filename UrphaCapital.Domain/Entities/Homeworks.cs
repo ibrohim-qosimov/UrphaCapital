@@ -13,6 +13,7 @@ namespace UrphaCapital.Domain.Entities
         public string FILE { get; set; }
         public string Description { get; set; }
         public long LessonId { get; set; }
+        public long studentId {  get; set; }
         public Lesson Lesson { get; set; }
     }
 }

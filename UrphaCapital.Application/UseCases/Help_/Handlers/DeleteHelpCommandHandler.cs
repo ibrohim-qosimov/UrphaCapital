@@ -6,30 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
+using UrphaCapital.Application.UseCases.Help_.Commands;
 using UrphaCapital.Application.ViewModels;
 
-namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
+namespace UrphaCapital.Application.UseCases.Help_.Handlers
 {
-    public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand, ResponseModel>
+    public class DeleteHelpCommandHandler : IRequestHandler<DeleteHelpCommand, ResponseModel>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeleteStudentCommandHandler(IApplicationDbContext context)
+        public DeleteHelpCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ResponseModel> Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseModel> Handle(DeleteHelpCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == request.Id);
+                var help = await _context.Helps.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                if (student == null)
+                if (help == null)
                     throw new Exception();
 
-                _context.Students.Remove(student);
+                _context.Helps.Remove(help);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new ResponseModel()

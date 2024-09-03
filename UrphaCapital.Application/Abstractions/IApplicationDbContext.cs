@@ -19,6 +19,7 @@ namespace UrphaCapital.Application.Abstractions
         public DbSet<Mentor> Mentors { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Homeworks> Homeworks { get; set; }
+        public DbSet<Help> Helps { get; set; }
         
         ValueTask<int> SaveChangesAsync(CancellationToken cancellationToken = default!);
     }

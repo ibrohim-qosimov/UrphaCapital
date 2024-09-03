@@ -59,6 +59,7 @@ namespace UrphaCapital.Application.UseCases.Homework.Handlers
                 Title = request.Title,
                 LessonId = request.LessonId,
                 Description = request.Description,
+                studentId = request.studentId,
                 FILE = "/HomeworkFile/" + fileName,
             };
 
