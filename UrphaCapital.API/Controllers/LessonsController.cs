@@ -38,6 +38,25 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
+        [HttpGet("getvideo")]
+        public async Task<IActionResult> GetLessonVideo([FromQuery] long lessonId, CancellationToken cancellation)
+        {
+            var query = new GetLessonVideoQuery { Id = lessonId };
+
+            var videoStream = await _mediator.Send(query, cancellation);
+
+            if (videoStream is null)
+            {
+                return NotFound();
+            }
+
+            return new FileStreamResult(videoStream, "video/mp4")
+            {
+                EnableRangeProcessing = true,
+                FileDownloadName = null
+            };
+        }
+
         [HttpGet("{courseId}/{index}/{count}")]
         public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(int index, int count, long courseId, CancellationToken cancellation)
         {

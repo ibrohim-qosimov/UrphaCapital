@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
 using System.Text.Json.Serialization;
@@ -66,6 +67,12 @@ namespace UrphaCapital.API
                     options.PermitLimit = 60;
                     options.QueueLimit = 10;
                 });
+            });
+
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 1_000_000_000;
             });
 
             services.AddMemoryCache(options => options.SizeLimit = 2048);

@@ -17,7 +17,7 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.QueryHandlers
 
         public async Task<Course> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Courses.Include(x => x.Mentor).FirstOrDefaultAsync(x => x.Id == request.Id) ??
+            return await _context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id) ??
                  throw new Exception("Not found");
         }
     }

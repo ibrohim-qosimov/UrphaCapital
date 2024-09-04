@@ -89,10 +89,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "SBopWV1rzVWZMaKR022dLwbcOvdcNtOY07Qdfv6STFI=",
+                            PasswordHash = "FKeZ0hNqDT6p77Y17tbpU4x7HkL5DO+2N2q4dZp1bO0=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "30b58e16-f7da-4761-babf-3b2dd79dbeea"
+                            Salt = "f4caad1f-8557-4005-b6f1-c68cdd684b44"
                         });
                 });
 
@@ -224,6 +224,35 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.Help", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CourseType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Helps");
+                });
+
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Homeworks", b =>
                 {
                     b.Property<long>("Id")
@@ -246,6 +275,9 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<long>("studentId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
