@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
 {
@@ -37,7 +38,11 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
                 };
             }
 
-            File.Delete(Path.Combine(_webHostEnvironment.WebRootPath, mentor.Picture));
+            var filePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
 
             _context.Mentors.Remove(mentor);
             await _context.SaveChangesAsync(cancellationToken);
