@@ -29,7 +29,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 
         public async Task<ResponseModel> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id, cancellationToken);
 
             if (lesson == null)
                 return new ResponseModel()

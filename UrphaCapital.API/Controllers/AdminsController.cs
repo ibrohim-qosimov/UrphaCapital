@@ -78,7 +78,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpPost("Login")]
         [EnableRateLimiting("sliding")]
-        public async Task<string> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
+        public async Task<TokenModel> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
         {
             if (ModelState.IsValid == false)
             {

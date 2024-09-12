@@ -11,9 +11,9 @@ namespace UrphaCapital.Application.UseCases.Lessons.Commands
 {
     public class UpdateLessonCommand : IRequest<ResponseModel>
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public long CourseId { get; set; }
+        public Guid CourseId { get; set; }
         public IFormFile Video { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
 
         public async Task<Stream?> Handle(GetLessonVideoQuery request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id);
             if (lesson == null)
             {
                 return null;

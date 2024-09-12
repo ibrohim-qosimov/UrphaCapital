@@ -33,7 +33,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
                 _memoryCache.Set(
                         key: "lesson",
                         value: await _context.Lessons
-            .Where(l => l.CourseId == request.CourseId)
+            .Where(l => l.CourseId.ToString() == request.CourseId)
                 .Skip(request.Index - 1)
                     .Take(request.Count)
                 .Select(x => new Lesson

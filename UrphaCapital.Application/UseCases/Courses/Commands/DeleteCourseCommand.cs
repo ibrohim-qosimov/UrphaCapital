@@ -10,6 +10,6 @@ namespace UrphaCapital.Application.UseCases.Courses.Commands
 {
     public class DeleteCourseCommand : IRequest<ResponseModel>
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
     }
 }

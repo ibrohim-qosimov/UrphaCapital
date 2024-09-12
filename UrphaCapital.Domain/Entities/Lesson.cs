@@ -8,10 +8,10 @@ namespace UrphaCapital.Domain.Entities
 {
     public class Lesson
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
-        public long CourseId {  get; set; }
+        public Guid CourseId { get; set; }
         public Course Course { get; set; }
-        public string Video {  get; set; }
+        public string Video { get; set; }
     }
 }

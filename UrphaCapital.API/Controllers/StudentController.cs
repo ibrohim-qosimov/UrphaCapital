@@ -67,7 +67,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ResponseModel> RemoveStudent(long id, CancellationToken cancellation)
+        public async Task<ResponseModel> RemoveStudent(string id, CancellationToken cancellation)
         {
             var command = new DeleteLessonCommand { Id = id };
 
@@ -78,7 +78,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpPost("Login")]
         [EnableRateLimiting("sliding")]
-        public async Task<string> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
+        public async Task<TokenModel> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
         {
             if (ModelState.IsValid == false)
             {

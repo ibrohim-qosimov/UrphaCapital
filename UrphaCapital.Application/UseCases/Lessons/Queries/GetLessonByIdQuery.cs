@@ -10,6 +10,6 @@ namespace UrphaCapital.Application.UseCases.Lessons.Queries
 {
     public class GetLessonByIdQuery : IRequest<Lesson>
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
     }
 }

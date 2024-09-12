@@ -29,7 +29,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Lesson> GetLessonById(long id, CancellationToken cancellation)
+        public async Task<Lesson> GetLessonById(string id, CancellationToken cancellation)
         {
             var query = new GetLessonByIdQuery { Id = id };
 
@@ -39,7 +39,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("getvideo")]
-        public async Task<IActionResult> GetLessonVideo([FromQuery] long lessonId, CancellationToken cancellation)
+        public async Task<IActionResult> GetLessonVideo([FromQuery] string lessonId, CancellationToken cancellation)
         {
             var query = new GetLessonVideoQuery { Id = lessonId };
 
@@ -58,7 +58,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{courseId}/{index}/{count}")]
-        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(int index, int count, long courseId, CancellationToken cancellation)
+        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(string courseId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllLessonsByCourseIdQuery()
             {
@@ -81,7 +81,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ResponseModel> RemoveLesson(long id, CancellationToken cancellation)
+        public async Task<ResponseModel> RemoveLesson(string id, CancellationToken cancellation)
         {
             var command = new DeleteLessonCommand { Id = id };
 

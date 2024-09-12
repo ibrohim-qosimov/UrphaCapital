@@ -27,7 +27,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<Course> GetById(long id, CancellationToken cancellation)
+        public async Task<Course> GetById(string id, CancellationToken cancellation)
         {
             var query = new GetCourseByIdQuery { Id = id };
 
@@ -74,7 +74,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ResponseModel> Delete(long id, CancellationToken cancellation)
+        public async Task<ResponseModel> Delete(string id, CancellationToken cancellation)
         {
             var command = new DeleteCourseCommand { Id = id };
 

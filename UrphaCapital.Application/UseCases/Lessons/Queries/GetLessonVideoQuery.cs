@@ -9,6 +9,6 @@ namespace UrphaCapital.Application.UseCases.Lessons.Queries
 {
     public class GetLessonVideoQuery : IRequest<Stream?>
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
     }
 }

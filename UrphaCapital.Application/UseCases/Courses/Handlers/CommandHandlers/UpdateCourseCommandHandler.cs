@@ -25,7 +25,7 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
 
         public async Task<ResponseModel> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
         {
-            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id, cancellationToken);
 
             if (course == null)
             {

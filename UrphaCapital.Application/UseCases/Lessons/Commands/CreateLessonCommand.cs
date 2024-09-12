@@ -7,7 +7,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Commands
     public class CreateLessonCommand : IRequest<ResponseModel>
     {
         public string Name { get; set; }
-        public long CourseId { get; set; }
+        public Guid CourseId { get; set; }
         public IFormFile Video { get; set; }
     }
 }
