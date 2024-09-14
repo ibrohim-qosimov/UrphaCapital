@@ -71,9 +71,10 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 
 
 
-            lesson.Name = request.Name;
+            lesson.Title = request.Name;
             lesson.Video = "/LessonVideos/" + fileName;
             lesson.CourseId = request.CourseId;
+            lesson.HomeworkDescription = request.HomeworkDescription;
 
             await _context.SaveChangesAsync(cancellationToken);
 

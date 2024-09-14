@@ -70,7 +70,7 @@ namespace UrphaCapital.Application.UseCases.Homework.Handlers
             hw.Title = request.Title;
             hw.FILE = "/HomeworkFile/" + fileName;
             hw.Description = request.Description;
-            hw.studentId = request.studentId;
+            hw.StudentId = request.StudentId;
             hw.LessonId = request.LessonId;
 
             await _context.SaveChangesAsync(cancellationToken);

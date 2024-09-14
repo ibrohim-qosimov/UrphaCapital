@@ -8,6 +8,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Commands
     {
         public string Name { get; set; }
         public Guid CourseId { get; set; }
+        public string HomeworkDescription { get; set; }
         public IFormFile Video { get; set; }
     }
 }

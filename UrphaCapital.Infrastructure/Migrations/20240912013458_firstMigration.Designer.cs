@@ -63,7 +63,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -116,7 +116,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -203,7 +203,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.Property<long>("MentorId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -297,7 +297,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 

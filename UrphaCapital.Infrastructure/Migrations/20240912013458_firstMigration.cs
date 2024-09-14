@@ -196,7 +196,7 @@ namespace UrphaCapital.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Admins",
-                columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
+                columns: new[] { "Id", "Email", "Title", "PasswordHash", "PhoneNumber", "Role", "Salt" },
                 values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "0uWF1h1dUY3IskvUlLOklhBlgmBACiFQQ/zcLXz1VFU=", "+998934013443", "SuperAdmin", "82f73fc9-42fe-417f-afae-7dcbbfd629fb" });
 
             migrationBuilder.CreateIndex(

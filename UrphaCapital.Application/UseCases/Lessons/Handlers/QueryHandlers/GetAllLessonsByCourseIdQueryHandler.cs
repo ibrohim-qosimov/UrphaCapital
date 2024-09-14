@@ -39,7 +39,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
                 .Select(x => new Lesson
                 {
                     Id = x.Id,
-                    Name = x.Name,
+                    Title = x.Title,
                     CourseId = x.CourseId
                 })
                 .ToListAsync(cancellationToken),

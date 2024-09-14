@@ -59,8 +59,9 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 
             var category = new Lesson()
             {
-                Name = request.Name,
+                Title = request.Name,
                 CourseId = request.CourseId,
+                HomeworkDescription = request.HomeworkDescription,
                 Video = "/LessonVideos/" + fileName,
             };
 

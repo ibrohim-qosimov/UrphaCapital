@@ -4,6 +4,7 @@ using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.DTOs;
 using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.API.Controllers
@@ -25,7 +26,7 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<ResponseModel> RemoveHomework(long id, CancellationToken cancellation)
         {
@@ -35,7 +36,7 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
-        
+
         [HttpPut]
         public async Task<ResponseModel> PutHomework([FromForm] UpdateHomeworkCommand command, CancellationToken cancellation)
         {
@@ -43,7 +44,30 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
-        
+
+        [HttpPut("grade-homework")]
+        public async Task<ResponseModel> PutHomework([FromBody] GradeHomeworkCommand command, CancellationToken cancellation)
+        {
+            var response = await _mediator.Send(command, cancellation);
+
+            return response;
+        }
+
+        [HttpGet("{studentId}/results/{index}/{count}")]
+        public async Task<IEnumerable<HomeworkResultView>> GetStudentHomeworkResults(long studentId, int index, int count, CancellationToken cancellation)
+        {
+            var query = new GetStudentHomeworkResultsQuery()
+            {
+                StudentId = studentId,
+                Index = index,
+                Count = count,
+            };
+
+            var response = await _mediator.Send(query, cancellation);
+
+            return response;
+        }
+
         [HttpGet("{index}/{count}")]
         public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
         {
