@@ -40,6 +40,8 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
                 {
                     Id = x.Id,
                     Title = x.Title,
+                    Video = x.Video,
+                    HomeworkDescription = x.HomeworkDescription,
                     CourseId = x.CourseId
                 })
                 .ToListAsync(cancellationToken),

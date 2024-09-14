@@ -35,6 +35,10 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.QueryHandlers
                                         {
                                             Id = x.Id,
                                             Name = x.Name,
+                                            Description = x.Description,
+                                            Picture = x.Picture,
+                                            Price = x.Price,
+                                            Subtitle = x.Subtitle,
                                             MentorId = x.MentorId
                                         })
                                         .ToListAsync(cancellationToken),
