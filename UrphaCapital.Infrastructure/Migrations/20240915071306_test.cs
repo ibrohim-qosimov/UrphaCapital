@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -115,9 +115,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Video = table.Column<string>(type: "text", nullable: false)
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    HomeworkDescription = table.Column<string>(type: "text", nullable: false),
+                    Video = table.Column<string>(type: "text", nullable: false),
+                    CourseId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,8 +140,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     FILE = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    LessonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    studentId = table.Column<long>(type: "bigint", nullable: false)
+                    StudentId = table.Column<long>(type: "bigint", nullable: false),
+                    Grade = table.Column<int>(type: "integer", nullable: true),
+                    MentorId = table.Column<long>(type: "bigint", nullable: true),
+                    LessonId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,8 +199,8 @@ namespace UrphaCapital.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Admins",
-                columns: new[] { "Id", "Email", "Title", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "0uWF1h1dUY3IskvUlLOklhBlgmBACiFQQ/zcLXz1VFU=", "+998934013443", "SuperAdmin", "82f73fc9-42fe-417f-afae-7dcbbfd629fb" });
+                columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "ic/h0fbizeHxmzCmNW6s5EDmZD80+w93Y11bQmvCFe8=", "+998934013443", "SuperAdmin", "21c9622c-5f95-449e-b5a0-e32e9a8fd3b1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",

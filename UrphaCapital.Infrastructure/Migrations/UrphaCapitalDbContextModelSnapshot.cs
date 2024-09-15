@@ -90,10 +90,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "z7PJWUN+y4J2dW7SdJ82kcVjY3YYG7+8UV1OUkPc+eo=",
+                            PasswordHash = "ic/h0fbizeHxmzCmNW6s5EDmZD80+w93Y11bQmvCFe8=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "a5cae941-dd44-4b5d-bdc0-9882db8ee01c"
+                            Salt = "21c9622c-5f95-449e-b5a0-e32e9a8fd3b1"
                         });
                 });
 

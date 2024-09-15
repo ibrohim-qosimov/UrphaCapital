@@ -13,8 +13,8 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20240914175812_secondMigrationForHomework")]
-    partial class secondMigrationForHomework
+    [Migration("20240915071306_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,7 +63,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -93,10 +93,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "4Il9e3rB5x4yv8ICacJKVcQIw7AM0ckPme6Io4ttYsg=",
+                            PasswordHash = "ic/h0fbizeHxmzCmNW6s5EDmZD80+w93Y11bQmvCFe8=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "8d09c77e-61d4-45c6-b403-a1bba01d1946"
+                            Salt = "21c9622c-5f95-449e-b5a0-e32e9a8fd3b1"
                         });
                 });
 
@@ -116,7 +116,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -203,7 +203,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.Property<long>("MentorId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -302,6 +302,10 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("HomeworkDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
