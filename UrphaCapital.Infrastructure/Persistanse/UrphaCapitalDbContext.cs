@@ -53,9 +53,6 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 Salt = salt
             });
 
-            modelBuilder.Entity<Student>()
-                .Property(s => s.CourseIds)
-                .HasColumnType("uuid[]");
 
         }
 

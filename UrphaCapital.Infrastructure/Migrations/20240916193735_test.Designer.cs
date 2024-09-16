@@ -13,8 +13,8 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20240916190519_usus")]
-    partial class usus
+    [Migration("20240916193735_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,10 +93,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "LXixSmGK1zCimS7HJigEQYR1MWACNvNMb9ARcmRusdU=",
+                            PasswordHash = "24dDXhFhsubK1TjpHYRVQ/leqv8xmcH0Fr8Q8Wn0rnM=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "c8dc5061-7022-41ee-b2aa-d397f56b3fb3"
+                            Salt = "101e6e94-0f83-4bf2-bea1-e40317770900"
                         });
                 });
 
@@ -157,8 +157,8 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<List<string>>("CourseIds")
-                        .HasColumnType("text[]");
+                    b.Property<List<Guid>>("CourseIds")
+                        .HasColumnType("uuid[]");
 
                     b.Property<string>("Email")
                         .IsRequired()
