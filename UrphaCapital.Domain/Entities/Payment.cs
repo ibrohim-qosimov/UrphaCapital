@@ -13,9 +13,9 @@ namespace UrphaCapital.Domain.Entities
         public long StudentId { get; set; }
         public Guid CourseId { get; set; }
         public decimal Amount { get; set; }
+        public string PaymentStatus { get; set; }
 
         public DateTimeOffset PaymentDate = DateTimeOffset.UtcNow;
-        public string PaymentStatus { get; set; }
         public Student Student { get; set; }
         public Course Course { get; set; }
     }
