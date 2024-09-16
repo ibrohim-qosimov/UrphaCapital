@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace UrphaCapital.Domain.Entities.Auth
@@ -15,7 +16,9 @@ namespace UrphaCapital.Domain.Entities.Auth
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
-        public List<string> CourseIds { get; set; }
+
+        [JsonIgnore]
+        public List<string>? CourseIds { get; set; }
         public string Role { get; set; }
     }
 }

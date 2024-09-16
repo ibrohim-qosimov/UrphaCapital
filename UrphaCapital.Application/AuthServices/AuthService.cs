@@ -24,13 +24,6 @@ namespace UrphaCapital.Application.AuthServices
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             int expirePeriod = int.Parse(_configuration["JWTSettings:Expire"]!);
 
-            string ids = "";
-
-            foreach (var a in user.CourseIds)
-            {
-                ids += a.ToString() + " ";
-            }
-
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
@@ -38,11 +31,9 @@ namespace UrphaCapital.Application.AuthServices
                 new Claim("UserId", user.Id.ToString()),
                 new Claim("Title", user.FullName),
                 new Claim("Phone", user.PhoneNumber),
-                new Claim("ids", ids),
                 new Claim("Address", user.Address),
                 new Claim("Email", user.Email),
                 new Claim("Role", user.Role!),
-                new Claim(ClaimTypes.UserData, ids)
             };
 
 
