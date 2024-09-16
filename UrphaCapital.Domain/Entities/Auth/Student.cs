@@ -18,7 +18,7 @@ namespace UrphaCapital.Domain.Entities.Auth
         public string Salt { get; set; }
 
         [JsonIgnore]
-        public List<string>? CourseIds { get; set; }
+        public List<Guid>? CourseIds { get; set; } = new List<Guid>();
         public string Role { get; set; }
     }
 }

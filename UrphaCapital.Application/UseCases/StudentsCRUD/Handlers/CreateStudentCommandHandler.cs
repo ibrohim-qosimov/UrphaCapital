@@ -38,7 +38,6 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
                 PasswordHash = password,
                 Salt = salt,
                 Role = "Student",
-                CourseIds = request.CourseIds,
             };
 
             await _context.Students.AddAsync(student);

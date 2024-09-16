@@ -7,6 +7,7 @@ using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
@@ -44,6 +45,19 @@ namespace UrphaCapital.API.Controllers
             return response;
         }
 
+        [HttpGet("get-my-courses/{id}")]
+        //one
+        public async Task<IEnumerable<Course>> GetMyCoursesById(long id, CancellationToken cancellation)
+        // two
+        {
+            //three
+            var query = new GetStudentCoursesQuery { Id = id };
+
+            var response = await _mediator.Send(query, cancellation);
+
+            return response;
+        }
+
         [HttpGet("{index}/{count}")]
         public async Task<IEnumerable<Student>> GetStudentsByStudentId(int index, int count, CancellationToken cancellation)
         {
@@ -60,6 +74,14 @@ namespace UrphaCapital.API.Controllers
 
         [HttpPut]
         public async Task<ResponseModel> PutStudent([FromBody] UpdateStudentCommand command, CancellationToken cancellation)
+        {
+            var response = await _mediator.Send(command, cancellation);
+
+            return response;
+        }
+
+        [HttpPut("add-course")]
+        public async Task<ResponseModel> AddMyCourse([FromQuery] AddMyCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 

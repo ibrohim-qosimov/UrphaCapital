@@ -35,7 +35,6 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
                 res.FullName = request.FullName;
                 res.Address = request.Address;
                 res.PhoneNumber = request.PhoneNumber;
-                res.CourseIds = request.CourseIds;
                 res.Email = request.Email;
                 res.PasswordHash = password;
                 res.Salt = salt;

@@ -15,6 +15,5 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Commands
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public List<string> CourseIds { get; set; }
     }
 }
