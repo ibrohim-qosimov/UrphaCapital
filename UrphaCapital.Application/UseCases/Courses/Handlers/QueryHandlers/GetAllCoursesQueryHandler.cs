@@ -10,38 +10,18 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.QueryHandlers
     public class GetAllCoursesQueryHandler : IRequestHandler<GetAllCoursesQuery, IEnumerable<Course>>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IMemoryCache _memoryCache;
 
-        public GetAllCoursesQueryHandler(IApplicationDbContext context, IMemoryCache memoryCache)
+        public GetAllCoursesQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _memoryCache = memoryCache;
         }
 
         public async Task<IEnumerable<Course>> Handle(GetAllCoursesQuery request, CancellationToken cancellationToken)
         {
-            var value = _memoryCache.Get("course-all");
-
-            if (value == null)
-            {
-                _memoryCache.Set(
-                        key: "course-all",
-
-                        value: await _context.Courses
-                            .Skip(request.Index - 1)
-                                .Take(request.Count)
-                                    .ToListAsync(cancellationToken),
-
-                         options: new MemoryCacheEntryOptions()
-                         {
-                             SlidingExpiration = TimeSpan.FromSeconds(5),
-                             AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(20),
-                             Size = 2048
-                         });
-
-            }
-
-            return _memoryCache.Get("course-all") as IEnumerable<Course>;
+            return await _context.Courses
+                .Skip(request.Index - 1)
+                .Take(request.Count)
+                .ToListAsync(cancellationToken);
         }
     }
 }

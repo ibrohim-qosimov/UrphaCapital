@@ -13,13 +13,11 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, R
 {
     private readonly IApplicationDbContext _context;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IMemoryCache _memoryCache;
 
-    public UpdateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
+    public UpdateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
         _webHostEnvironment = webHostEnvironment;
-        _memoryCache = memoryCache;
     }
 
     public async Task<ResponseModel> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
@@ -91,9 +89,6 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, R
             course.MentorId = (long)request.MentorId;
 
         await _context.SaveChangesAsync(cancellationToken);
-
-        _memoryCache.Remove("course-all");
-        _memoryCache.Remove("course");
 
         return new ResponseModel()
         {

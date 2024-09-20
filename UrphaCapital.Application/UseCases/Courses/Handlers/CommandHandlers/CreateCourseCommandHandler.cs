@@ -13,13 +13,11 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IMemoryCache _memoryCache;
 
-        public CreateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
+        public CreateCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
-            _memoryCache = memoryCache;
         }
 
         public async Task<ResponseModel> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
@@ -65,9 +63,6 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
 
             await _context.Courses.AddAsync(course, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-
-            _memoryCache.Remove("course-all");
-            _memoryCache.Remove("course");
 
             return new ResponseModel()
             {

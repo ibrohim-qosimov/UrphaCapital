@@ -25,6 +25,6 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties apsettings_1json__JsonSchema="https://alec016.github.io/Custom-Machinery/Json%20Schema/src/main/resources/schemas/custom_machinery_machine.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

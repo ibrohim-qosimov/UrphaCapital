@@ -23,7 +23,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
         public async Task<Lesson> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
         {
             return await _context.Lessons.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id) ??
-                    throw new NotImplementedException();
+                    throw new NotImplementedException("Not found");
         }
     }
 }
