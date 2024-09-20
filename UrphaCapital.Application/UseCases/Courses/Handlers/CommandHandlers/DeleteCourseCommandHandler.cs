@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,18 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IMemoryCache _memoryCache;
 
-        public DeleteCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public DeleteCourseCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ResponseModel> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
         {
-            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id, cancellationToken);
+            var course = await _context.Courses.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (course == null)
             {
@@ -37,10 +40,17 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
                 };
             }
 
-            File.Delete(Path.Combine(_webHostEnvironment.WebRootPath, course.Picture));
+            var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, course.Picture);
+
+            if (File.Exists(deleteFilePath))
+                File.Delete(deleteFilePath);
 
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync(cancellationToken);
+
+
+            _memoryCache.Remove("course-all");
+            _memoryCache.Remove("course");
 
             return new ResponseModel()
             {

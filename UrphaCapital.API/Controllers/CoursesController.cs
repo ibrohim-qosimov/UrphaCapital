@@ -74,7 +74,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ResponseModel> Delete(string id, CancellationToken cancellation)
+        public async Task<ResponseModel> Delete(Guid id, CancellationToken cancellation)
         {
             var command = new DeleteCourseCommand { Id = id };
 

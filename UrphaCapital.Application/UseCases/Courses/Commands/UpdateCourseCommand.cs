@@ -11,7 +11,7 @@ namespace UrphaCapital.Application.UseCases.Courses.Commands
 {
     public class UpdateCourseCommand : IRequest<ResponseModel>
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Subtitle { get; set; }
