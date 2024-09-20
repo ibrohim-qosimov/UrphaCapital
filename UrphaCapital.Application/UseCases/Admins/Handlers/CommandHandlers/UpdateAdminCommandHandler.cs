@@ -37,14 +37,25 @@ namespace UrphaCapital.Application.UseCases.Admins.Handlers.CommandHandlers
                 };
             }
 
-            var salt = Guid.NewGuid().ToString();
-            var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
+            if (request.PasswordHash != null)
+            {
+                var salt = Guid.NewGuid().ToString();
+                var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
 
-            admin.Salt = salt;
-            admin.PasswordHash = hashedPassword;
-            admin.PhoneNumber = request.PhoneNumber;
-            admin.Email = request.Email;
-            admin.Name = request.Name;
+                admin.Salt = salt;
+                admin.PasswordHash = hashedPassword;
+            }
+
+            if (request.Name != null)
+                admin.Name = request.Name;
+
+            if (request.Email != null)
+                admin.Email = request.Email;
+
+            if (request.PhoneNumber != null)
+                admin.PhoneNumber = request.PhoneNumber;
+
+
 
             await _context.SaveChangesAsync(cancellationToken);
 

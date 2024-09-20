@@ -35,46 +35,60 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, R
                 StatusCode = 404,
             };
         }
-        var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, course.Picture);
 
-        if (File.Exists(deleteFilePath))
-            File.Delete(deleteFilePath);
-
-        var file = request.Picture;
-        string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "CoursesPictures");
-        string fileName = "";
-
-        try
+        if (request.Picture != null)
         {
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-                Debug.WriteLine("Directory created successfully.");
-            }
 
-            fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            filePath = Path.Combine(_webHostEnvironment.WebRootPath, "CoursesPictures", fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, course.Picture);
+
+            if (File.Exists(deleteFilePath))
+                File.Delete(deleteFilePath);
+
+            var file = request.Picture;
+            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "CoursesPictures");
+            string fileName = "";
+
+            try
             {
-                await file.CopyToAsync(stream);
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                    Debug.WriteLine("Directory created successfully.");
+                }
+
+                fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                filePath = Path.Combine(_webHostEnvironment.WebRootPath, "CoursesPictures", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            return new ResponseModel()
+            catch (Exception ex)
             {
-                Message = ex.Message,
-                StatusCode = 500,
-                IsSuccess = false
-            };
+                return new ResponseModel()
+                {
+                    Message = ex.Message,
+                    StatusCode = 500,
+                    IsSuccess = false
+                };
+            }
+            course.Picture = "/CoursesPictures/" + fileName;
         }
 
-        course.Name = request.Name;
-        course.Description = request.Description;
-        course.Subtitle = request.Subtitle;
-        course.Picture = "/CoursesPictures/" + fileName;
-        course.Price = request.Price;
-        course.MentorId = request.MentorId;
+        if (request.Name != null)
+            course.Name = request.Name;
+
+        if (request.Description != null)
+            course.Description = request.Description;
+
+        if (request.Subtitle != null)
+            course.Subtitle = request.Subtitle;
+
+        if (request.Price != null)
+            course.Price = request.Price;
+
+        if (request.MentorId != null)
+            course.MentorId = (long)request.MentorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

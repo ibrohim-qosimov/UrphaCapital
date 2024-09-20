@@ -29,7 +29,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 
         public async Task<ResponseModel> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id.ToString() == request.Id, cancellationToken);
+            var lesson = await _context.Lessons.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (lesson == null)
                 return new ResponseModel()
@@ -39,42 +39,50 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
                     StatusCode = 404
                 };
 
-
-            var file = request.Video;
-            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos");
-            string fileName = "";
-
-            try
+            if (request.Video != null)
             {
-                if (!Directory.Exists(filePath))
+                var file = request.Video;
+                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos");
+                string fileName = "";
+
+                File.Delete(Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, lesson.Video));
+
+                try
                 {
-                    Directory.CreateDirectory(filePath);
-                    Debug.WriteLine("Directory created successfully.");
+                    if (!Directory.Exists(filePath))
+                    {
+                        Directory.CreateDirectory(filePath);
+                        Debug.WriteLine("Directory created successfully.");
+                    }
+
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos", fileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
                 }
-
-                fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos", fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                catch (Exception ex)
                 {
-                    await file.CopyToAsync(stream);
+                    return new ResponseModel()
+                    {
+                        Message = ex.Message,
+                        StatusCode = 500,
+                        IsSuccess = false
+                    };
                 }
-            }
-            catch (Exception ex)
-            {
-                return new ResponseModel()
-                {
-                    Message = ex.Message,
-                    StatusCode = 500,
-                    IsSuccess = false
-                };
+                lesson.Video = "/LessonVideos/" + fileName;
             }
 
 
+            if (request.Name != null)
+                lesson.Title = request.Name;
 
-            lesson.Title = request.Name;
-            lesson.Video = "/LessonVideos/" + fileName;
-            lesson.CourseId = request.CourseId;
-            lesson.HomeworkDescription = request.HomeworkDescription;
+            if (request.CourseId != null)
+                lesson.CourseId = (Guid)request.CourseId;
+
+            if (request.HomeworkDescription != null)
+                lesson.HomeworkDescription = request.HomeworkDescription;
 
             await _context.SaveChangesAsync(cancellationToken);
 

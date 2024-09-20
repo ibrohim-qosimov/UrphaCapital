@@ -13,36 +13,38 @@ using UrphaCapital.Application.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
 
-namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
+namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers;
+public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, ResponseModel>
 {
-    public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, ResponseModel>
-    {
-        private readonly IApplicationDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IPasswordHasher _passwordHasher;
+    private readonly IApplicationDbContext _context;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IPasswordHasher _passwordHasher;
 
-        public UpdateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher)
+    public UpdateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher)
+    {
+        _context = context;
+        _webHostEnvironment = webHostEnvironment;
+        _passwordHasher = passwordHasher;
+    }
+
+    public async Task<ResponseModel> Handle(UpdateMentorCommand request, CancellationToken cancellationToken)
+    {
+        var mentor = await _context.Mentors.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+        if (mentor == null)
         {
-            _context = context;
-            _webHostEnvironment = webHostEnvironment;
-            _passwordHasher = passwordHasher;
+            return new ResponseModel()
+            {
+                IsSuccess = false,
+                Message = "Not found",
+                StatusCode = 404,
+            };
         }
 
-        public async Task<ResponseModel> Handle(UpdateMentorCommand request, CancellationToken cancellationToken)
+        if (request.Picture != null)
         {
-            var mentor = await _context.Mentors.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (mentor == null)
-            {
-                return new ResponseModel()
-                {
-                    IsSuccess = false,
-                    Message = "Not found",
-                    StatusCode = 404,
-                };
-            }
-
-            File.Delete(Path.Combine(_webHostEnvironment.WebRootPath, mentor.Picture));
+            File.Delete(Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture));
 
             var file = request.Picture;
             string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "MentorsPictures");
@@ -73,25 +75,37 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
                 };
             }
 
+            mentor.Picture = "/MentorsPictures/" + fileName;
+        }
+
+
+        if (request.PasswordHash != null)
+        {
             var salt = Guid.NewGuid().ToString();
             var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
-
-            mentor.Name = request.Name;
-            mentor.Description = request.Description;
-            mentor.Email = request.Email;
-            mentor.PhoneNumber = request.PhoneNumber;
-            mentor.Picture = "/MentorsPictures/" + fileName;
             mentor.PasswordHash = hashedPassword;
             mentor.Salt = salt;
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return new ResponseModel()
-            {
-                IsSuccess = true,
-                Message = "Updated",
-                StatusCode = 201,
-            };
         }
+
+        if (request.Name != null)
+            mentor.Name = request.Name;
+
+        if (request.Email != null)
+            mentor.Email = request.Email;
+
+        if (request.Description != null)
+            mentor.Description = request.Description;
+
+        if (request.PhoneNumber != null)
+            mentor.PhoneNumber = request.PhoneNumber;
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return new ResponseModel()
+        {
+            IsSuccess = true,
+            Message = "Updated",
+            StatusCode = 201,
+        };
     }
 }
