@@ -28,11 +28,7 @@ namespace UrphaCapital.Application.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("UserId", user.Id.ToString()),
-                new Claim("Title", user.FullName),
                 new Claim("Phone", user.PhoneNumber),
-                new Claim("Address", user.Address),
-                new Claim("Email", user.Email),
                 new Claim("Role", user.Role!),
             };
 
@@ -65,10 +61,7 @@ namespace UrphaCapital.Application.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Id", user.Id.ToString()),
-                new Claim("Title", user.Name),
                 new Claim("Phone", user.PhoneNumber),
-                new Claim("Email", user.Email),
                 new Claim("Role", user.Role!)
             };
 
@@ -101,10 +94,7 @@ namespace UrphaCapital.Application.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Id", user.Id.ToString()),
-                new Claim("Title", user.Name),
                 new Claim("Phone", user.PhoneNumber),
-                new Claim("Email", user.Email),
                 new Claim("Role", user.Role!)
             };
 
