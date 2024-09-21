@@ -38,7 +38,7 @@ namespace UrphaCapital.API
                           .AllowAnyMethod();
                 });
             });
-
+            services.AddHttpClient();
             services.AddUrphaCapitalApplicationDependencyInjection();
             services.AddUrphaCapitalInfrastructureDependencyInjection(configRoot);
 
