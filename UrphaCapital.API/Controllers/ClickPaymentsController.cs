@@ -14,21 +14,5 @@ namespace UrphaCapital.API.Controllers
         {
             _paymentService = paymentService;
         }
-
-        [HttpPost]
-        public async Task<IActionResult> PreparePaymentAsync(decimal amout)
-        {
-            var result = await _paymentService.PreparePaymentAsync(amout, "test");
-
-            return Ok(result);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ConfirmPaymentAsync(string transactionId)
-        {
-            var result = await _paymentService.ConfirmPaymentAsync(transactionId);
-
-            return Ok(result);
-        }
     }
 }
