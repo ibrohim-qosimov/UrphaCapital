@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Courses.Commands;
 using UrphaCapital.Application.UseCases.Courses.Queries;
@@ -19,6 +20,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Create([FromForm] CreateCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -66,6 +68,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Update([FromForm] UpdateCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -74,6 +77,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Delete(Guid id, CancellationToken cancellation)
         {
             var command = new DeleteCourseCommand { Id = id };

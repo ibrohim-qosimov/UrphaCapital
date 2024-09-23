@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Homework.Commands;
@@ -27,6 +28,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> RemoveHelp(long id, CancellationToken cancellation)
         {
             var command = new DeleteHomeworkCommand { Id = id };
@@ -37,6 +39,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllHomeworksQuery();
