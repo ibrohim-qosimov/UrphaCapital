@@ -29,15 +29,23 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
 
             if (res != null)
             {
-                var salt = Guid.NewGuid().ToString();
-                var password = _passwordHasher.Encrypt(request.PasswordHash, salt);
+                if (request.PasswordHash != null)
+                {
+                    var salt = Guid.NewGuid().ToString();
+                    var password = _passwordHasher.Encrypt(request.PasswordHash, salt);
+                    res.PasswordHash = password;
+                    res.Salt = salt;
+                }
 
-                res.FullName = request.FullName;
-                res.Address = request.Address;
-                res.PhoneNumber = request.PhoneNumber;
-                res.Email = request.Email;
-                res.PasswordHash = password;
-                res.Salt = salt;
+                if (request.FullName != null)
+                    res.FullName = request.FullName;
+                if (request.Address != null)
+                    res.Address = request.Address;
+                if (request.PhoneNumber != null)
+                    res.PhoneNumber = request.PhoneNumber;
+                if (request.Email != null)
+                    res.Email = request.Email;
+
 
                 _context.Students.Update(res);
                 await _context.SaveChangesAsync(cancellationToken);

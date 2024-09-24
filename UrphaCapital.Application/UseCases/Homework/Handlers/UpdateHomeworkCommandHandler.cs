@@ -67,11 +67,16 @@ namespace UrphaCapital.Application.UseCases.Homework.Handlers
 
 
 
-            hw.Title = request.Title;
-            hw.FILE = "/HomeworkFile/" + fileName;
-            hw.Description = request.Description;
-            hw.StudentId = request.StudentId;
-            hw.LessonId = request.LessonId;
+            if (request.Title != null)
+                hw.Title = request.Title;
+            if (request.FILE != null)
+                hw.FILE = "/HomeworkFile/" + fileName;
+            if (request.Description != null)
+                hw.Description = request.Description;
+            if (request.StudentId != null)
+                hw.StudentId = (long)request.StudentId;
+            if (request.LessonId != null)
+                hw.LessonId = (Guid)request.LessonId;
 
             await _context.SaveChangesAsync(cancellationToken);
 
