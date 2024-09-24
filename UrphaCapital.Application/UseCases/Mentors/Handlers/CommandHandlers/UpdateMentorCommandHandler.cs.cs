@@ -43,8 +43,10 @@ public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, R
 
         if (request.Picture != null)
         {
+            var deletedFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture);
 
-            File.Delete(Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture));
+            if (File.Exists(deletedFilePath))
+                File.Delete(deletedFilePath);
 
             var file = request.Picture;
             string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "MentorsPictures");

@@ -39,6 +39,7 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
             }
 
             var filePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture);
+
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
