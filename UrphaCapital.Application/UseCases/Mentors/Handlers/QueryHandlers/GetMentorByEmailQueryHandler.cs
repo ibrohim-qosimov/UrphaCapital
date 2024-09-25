@@ -6,7 +6,7 @@ using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.UseCases.Mentors.Handlers.QueryHandlers
 {
-    public class GetMentorByEmailQueryHandler : IRequestHandler<GetAMentorByEmailQuery, Mentor>
+    public class GetMentorByEmailQueryHandler : IRequestHandler<GetAMentorByEmailQuery, Mentor?>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,10 +15,10 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.QueryHandlers
             _context = context;
         }
 
-        public async Task<Mentor> Handle(GetAMentorByEmailQuery request, CancellationToken cancellationToken)
+        public async Task<Mentor?> Handle(GetAMentorByEmailQuery request, CancellationToken cancellationToken)
         {
             return await _context.Mentors
-                .FirstOrDefaultAsync(x => x.Email == request.Email) ?? throw new Exception();
+                .FirstOrDefaultAsync(x => x.Email == request.Email);
         }
     }
 }

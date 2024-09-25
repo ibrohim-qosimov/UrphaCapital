@@ -6,7 +6,7 @@ using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.UseCases.Admins.Handlers.QueryHandlers
 {
-    public class GetAdminByEmailQueryHandler : IRequestHandler<GetAdminByEmailQuery, Admin>
+    public class GetAdminByEmailQueryHandler : IRequestHandler<GetAdminByEmailQuery, Admin?>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,16 +15,9 @@ namespace UrphaCapital.Application.UseCases.Admins.Handlers.QueryHandlers
             _context = context;
         }
 
-        public async Task<Admin> Handle(GetAdminByEmailQuery request, CancellationToken cancellationToken)
+        public async Task<Admin?> Handle(GetAdminByEmailQuery request, CancellationToken cancellationToken)
         {
-            var admin = await _context.Admins.FirstOrDefaultAsync(x => x.Email == request.Email);
-
-            if (admin == null)
-            {
-                throw new Exception();
-            }
-
-            return admin;
+            return await _context.Admins.FirstOrDefaultAsync(x => x.Email == request.Email);
         }
     }
 }

@@ -76,38 +76,5 @@ namespace UrphaCapital.API.Controllers
 
             return response;
         }
-
-        [HttpPost("Login")]
-        [EnableRateLimiting("sliding")]
-        public async Task<TokenModel> Login([FromBody] AdminLogin loginModel, CancellationToken cancellation)
-        {
-            if (ModelState.IsValid == false)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var query = new GetAdminByEmailQuery()
-            {
-                Email = loginModel.Email,
-            };
-
-            var admin = await _mediator.Send(query, cancellation);
-
-            if (admin == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var isPasswordTrue = _passwordHasher.Verify(admin.PasswordHash, loginModel.Password, admin.Salt);
-
-            if (!isPasswordTrue)
-            {
-                throw new InvalidOperationException("Password is incorrect");
-            }
-
-            var token = _authService.GenerateToken(admin);
-
-            return token;
-        }
     }
 }

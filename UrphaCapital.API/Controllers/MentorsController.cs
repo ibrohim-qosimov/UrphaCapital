@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.UseCases.Mentors.Queries;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
@@ -80,39 +78,6 @@ namespace UrphaCapital.API.Controllers
             var response = await _mediator.Send(command, cancellation);
 
             return response;
-        }
-
-        [HttpPost("Login")]
-        [EnableRateLimiting("sliding")]
-        public async Task<TokenModel> Login([FromBody] MentorLogin loginModel, CancellationToken cancellation)
-        {
-            if (ModelState.IsValid == false)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var query = new GetAMentorByEmailQuery()
-            {
-                Email = loginModel.Email,
-            };
-
-            var student = await _mediator.Send(query, cancellation);
-
-            if (student == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var isPasswordTrue = _passwordHasher.Verify(student.PasswordHash, loginModel.Password, student.Salt);
-
-            if (!isPasswordTrue)
-            {
-                throw new InvalidOperationException("Password is incorrect");
-            }
-
-            var token = _authService.GenerateToken(student);
-
-            return token;
         }
     }
 }
