@@ -18,7 +18,7 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             _configuration = configuration;
         }
 
-        public TokenModel GenerateToken(Student user)
+        public TokenModel GenerateToken(Student model)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:Secret"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -28,8 +28,8 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Phone", user.PhoneNumber),
-                new Claim("Role", user.Role!),
+                new Claim("Phone", model.PhoneNumber),
+                new Claim("Role", model.Role!),
             };
 
 
@@ -51,7 +51,7 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             return response;
         }
 
-        public TokenModel GenerateToken(Admin user)
+        public TokenModel GenerateToken(Admin model)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:Secret"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -61,8 +61,8 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Phone", user.PhoneNumber),
-                new Claim("Role", user.Role!)
+                new Claim("Phone", model.PhoneNumber),
+                new Claim("Role", model.Role!)
             };
 
 
@@ -84,7 +84,7 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             return response;
         }
 
-        public TokenModel GenerateToken(Mentor user)
+        public TokenModel GenerateToken(Mentor model)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:Secret"]!));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -94,8 +94,8 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
-                new Claim("Phone", user.PhoneNumber),
-                new Claim("Role", user.Role!)
+                new Claim("Phone", model.PhoneNumber),
+                new Claim("Role", model.Role!)
             };
 
 

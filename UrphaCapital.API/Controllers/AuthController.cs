@@ -11,7 +11,7 @@ using UrphaCapital.Application.ViewModels.AuthModels;
 
 namespace UrphaCapital.API.Controllers
 {
-    [Route("api/autContoller")]
+    [Route("api/authContoller")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -19,19 +19,19 @@ namespace UrphaCapital.API.Controllers
         private readonly IPasswordHasher _passwordHasher;
         private readonly IAuthService _authService;
 
-        public AuthController(IMediator mediator, IPasswordHasher passwordHasher)
+        public AuthController(IMediator mediator, IPasswordHasher passwordHasher,IAuthService authService)
         {
             _mediator = mediator;
             _passwordHasher = passwordHasher;
+            _authService = authService;
         }
-
         [HttpPost("login")]
         [EnableRateLimiting("sliding")]
-        public async Task<TokenModel> Login([FromBody] LoginModel loginModel, CancellationToken cancellation)
+        public async Task<ActionResult<TokenModel>> Login([FromBody] LoginModel loginModel, CancellationToken cancellation)
         {
             if (!ModelState.IsValid)
             {
-                throw new InvalidOperationException();
+                return BadRequest("Invalid login model.");
             }
 
             // Check for student
@@ -39,40 +39,56 @@ namespace UrphaCapital.API.Controllers
             var student = await _mediator.Send(studentQuery, cancellation);
             if (student != null)
             {
-                if (!_passwordHasher.Verify(student.PasswordHash, loginModel.Password, student.Salt))
+                if (student.PasswordHash == null || student.Salt == null)
                 {
-                    throw new InvalidOperationException("Password is incorrect");
+                    return BadRequest("User credentials are not set properly.");
                 }
 
-                return _authService.GenerateToken(student);
+                if (!_passwordHasher.Verify(student.PasswordHash, loginModel.Password, student.Salt))
+                {
+                    return Unauthorized("Password is incorrect for the student.");
+                }
+
+                return Ok(_authService.GenerateToken(student));
             }
 
-            //check for mentor
+            // Check for mentor
             var mentorQuery = new GetAMentorByEmailQuery { Email = loginModel.Email };
             var mentor = await _mediator.Send(mentorQuery, cancellation);
             if (mentor != null)
             {
-                if (!_passwordHasher.Verify(mentor.PasswordHash, loginModel.Password, mentor.Salt))
+                if (mentor.PasswordHash == null || mentor.Salt == null)
                 {
-                    throw new InvalidOperationException("Password is incorrect");
+                    return BadRequest("User credentials are not set properly.");
                 }
 
-                return _authService.GenerateToken(mentor);
+                if (!_passwordHasher.Verify(mentor.PasswordHash, loginModel.Password, mentor.Salt))
+                {
+                    return Unauthorized("Password is incorrect for the mentor.");
+                }
+
+                return Ok(_authService.GenerateToken(mentor));
             }
-            //check for admin
+
+            // Check for admin
             var adminQuery = new GetAdminByEmailQuery { Email = loginModel.Email };
             var admin = await _mediator.Send(adminQuery, cancellation);
             if (admin != null)
             {
-                if (!_passwordHasher.Verify(admin.PasswordHash, loginModel.Password, admin.Salt))
+                if (admin.PasswordHash == null || admin.Salt == null)
                 {
-                    throw new InvalidOperationException("Password is incorrect");
+                    return BadRequest("User credentials are not set properly.");
                 }
 
-                return _authService.GenerateToken(admin);
+                if (!_passwordHasher.Verify(admin.PasswordHash, loginModel.Password, admin.Salt))
+                {
+                    return Unauthorized("Password is incorrect for the admin.");
+                }
+
+                return Ok(_authService.GenerateToken(admin));
             }
 
-            throw new InvalidOperationException("User not found");
+            return NotFound("User not found.");
         }
 
     }
