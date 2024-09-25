@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using System.Text.Json;
-using UrphaCapital.Application.ErrorSender;
+﻿using System.Text.Json;
+using UrphaCapital.Application.ExternalServices.ErrorSender;
 
 namespace UrphaCapital.API.Middlewares
 {

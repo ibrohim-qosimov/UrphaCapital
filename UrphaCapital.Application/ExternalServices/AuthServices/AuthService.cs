@@ -7,7 +7,7 @@ using System.Text;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
 
-namespace UrphaCapital.Application.AuthServices
+namespace UrphaCapital.Application.ExternalServices.AuthServices
 {
     public class AuthService : IAuthService
     {

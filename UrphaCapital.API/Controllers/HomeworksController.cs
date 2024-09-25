@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;
-using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.DTOs;
 using UrphaCapital.Domain.Entities;

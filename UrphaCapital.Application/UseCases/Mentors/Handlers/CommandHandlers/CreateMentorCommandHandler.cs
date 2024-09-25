@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using System.Diagnostics;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.HasherServices;
+using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;

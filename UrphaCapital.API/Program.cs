@@ -1,7 +1,3 @@
-
-using UrphaCapital.Application;
-using UrphaCapital.Infrastructure;
-
 namespace UrphaCapital.API
 {
     public class Program

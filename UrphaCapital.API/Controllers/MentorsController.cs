@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using UrphaCapital.Application.AuthServices;
-using UrphaCapital.Application.HasherServices;
+using UrphaCapital.Application.ExternalServices.AuthServices;
+using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.UseCases.Mentors.Queries;
-using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
 

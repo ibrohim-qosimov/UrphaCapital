@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;

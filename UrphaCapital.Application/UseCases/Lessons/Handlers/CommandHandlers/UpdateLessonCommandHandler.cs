@@ -1,13 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.ViewModels;
@@ -43,7 +37,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
                 string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos");
                 string fileName = "";
 
-                var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, lesson.Video)
+                var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, lesson.Video);
                 if (File.Exists(deleteFilePath))
                     File.Delete(deleteFilePath);
 

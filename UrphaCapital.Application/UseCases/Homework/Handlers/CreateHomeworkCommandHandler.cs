@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.ViewModels;

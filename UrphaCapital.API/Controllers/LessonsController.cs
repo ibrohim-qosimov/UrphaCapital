@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace UrphaCapital.API.Controllers
 {

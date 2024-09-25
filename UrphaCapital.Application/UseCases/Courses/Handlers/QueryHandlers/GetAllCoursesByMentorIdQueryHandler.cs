@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Courses.Queries;
 using UrphaCapital.Domain.Entities;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UrphaCapital.Application.PaymentProcessing
+﻿namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
 {
     public interface IPaymentService
     {

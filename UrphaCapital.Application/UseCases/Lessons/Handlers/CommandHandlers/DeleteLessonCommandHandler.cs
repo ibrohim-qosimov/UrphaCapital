@@ -1,16 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 {

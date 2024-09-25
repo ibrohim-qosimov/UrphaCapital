@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using UrphaCapital.Application.AuthServices;
-using UrphaCapital.Application.ErrorSender;
-using UrphaCapital.Application.HasherServices;
-using UrphaCapital.Application.PaymentProcessing;
+using UrphaCapital.Application.ExternalServices.AuthServices;
+using UrphaCapital.Application.ExternalServices.ErrorSender;
+using UrphaCapital.Application.ExternalServices.HasherServices;
+using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Handlers.QueryHandler;
 
 namespace UrphaCapital.Application

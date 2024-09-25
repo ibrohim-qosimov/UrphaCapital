@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using UrphaCapital.Application.AuthServices;
-using UrphaCapital.Application.HasherServices;
+using UrphaCapital.Application.ExternalServices.AuthServices;
+using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;

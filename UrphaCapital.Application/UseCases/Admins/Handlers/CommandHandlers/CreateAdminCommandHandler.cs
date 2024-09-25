@@ -1,11 +1,6 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.HasherServices;
+using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;

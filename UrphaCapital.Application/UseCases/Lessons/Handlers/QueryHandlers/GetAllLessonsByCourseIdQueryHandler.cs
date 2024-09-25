@@ -1,12 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Domain.Entities;

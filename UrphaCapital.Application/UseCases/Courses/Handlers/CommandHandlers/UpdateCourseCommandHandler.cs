@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Courses.Commands;

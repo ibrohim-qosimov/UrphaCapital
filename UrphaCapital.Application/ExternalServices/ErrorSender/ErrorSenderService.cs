@@ -1,12 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 
-namespace UrphaCapital.Application.ErrorSender
+namespace UrphaCapital.Application.ExternalServices.ErrorSender
 {
     public class ErrorSenderService : IErrorSenderService
     {
@@ -21,7 +16,7 @@ namespace UrphaCapital.Application.ErrorSender
 
         public async Task SendError(string message, CancellationToken cancellationToken = default)
         {
-            await this.telegramBotClient.SendTextMessageAsync(chatId: $"{_configuration.GetSection("TelegramBot").GetSection("ChatId").Value}",
+            await telegramBotClient.SendTextMessageAsync(chatId: $"{_configuration.GetSection("TelegramBot").GetSection("ChatId").Value}",
                 text: $"{message}",
                 cancellationToken: cancellationToken);
         }

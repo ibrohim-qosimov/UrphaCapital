@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace UrphaCapital.Application.PaymentProcessing
+namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
 {
     public class PaymentService : IPaymentService
     {
@@ -41,7 +35,7 @@ namespace UrphaCapital.Application.PaymentProcessing
                 var requestData = new
                 {
                     service_id = ServiceId,
-                    amount = amount,
+                    amount,
                     phone_number = phoneNumber,
                     merchant_trans_id = merchantTransId
                 };
@@ -298,7 +292,7 @@ namespace UrphaCapital.Application.PaymentProcessing
             {
                 service_id = ServiceId,
                 card_token = cardToken,
-                amount = amount,
+                amount,
                 transaction_parameter = merchantTransId
             };
 

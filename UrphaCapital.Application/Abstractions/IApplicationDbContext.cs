@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UrphaCapital.Domain.Entities.Auth;
 using UrphaCapital.Domain.Entities;
+using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.Abstractions
 {
@@ -20,8 +15,8 @@ namespace UrphaCapital.Application.Abstractions
         public DbSet<Student> Students { get; set; }
         public DbSet<Homeworks> Homeworks { get; set; }
         public DbSet<Help> Helps { get; set; }
-        public DbSet <Payment> Paymentss { get; set; }
-        
+        public DbSet<Payment> Paymentss { get; set; }
+
         ValueTask<int> SaveChangesAsync(CancellationToken cancellationToken = default!);
     }
 }
