@@ -8,6 +8,7 @@ using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
@@ -52,11 +53,8 @@ namespace UrphaCapital.API.Controllers
         [HttpGet("get-my-courses/{id}")]
         [Authorize(Roles = "Admin")]
         [Authorize(Roles = "Student")]
-        //one
         public async Task<IEnumerable<Course>> GetMyCoursesById(long id, CancellationToken cancellation)
-        // two
         {
-            //three
             var query = new GetStudentCoursesQuery { Id = id };
 
             var response = await _mediator.Send(query, cancellation);

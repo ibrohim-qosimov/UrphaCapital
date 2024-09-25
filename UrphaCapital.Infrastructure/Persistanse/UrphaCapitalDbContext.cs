@@ -23,7 +23,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Student> Students { get; set; }
         public DbSet<Homeworks> Homeworks { get; set; }
         public DbSet<Help> Helps { get; set; }
-        public DbSet<Payment> Paymentss { get; set; }
+        public DbSet<ClickTransaction> ClickTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

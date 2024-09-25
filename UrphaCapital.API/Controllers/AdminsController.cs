@@ -6,6 +6,7 @@ using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers

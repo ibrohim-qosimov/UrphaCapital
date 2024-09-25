@@ -1,4 +1,6 @@
-﻿namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
+﻿using UrphaCapital.Application.ViewModels.PaymentModels;
+
+namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
 {
     public interface IPaymentService
     {
@@ -21,5 +23,9 @@
         public Task MakePaymentWithToken(string cardToken, decimal amount, string merchantTransId);
 
         public Task DeleteCardToken(string cardToken);
+
+        public Task<PrepareResponse> Prepare(PrepareRequest prepareRequest);
+
+        public Task<ComplareResponse> Complate(ComplateRequest complateRequest);
     }
 }

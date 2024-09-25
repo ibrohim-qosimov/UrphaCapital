@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Selects.Queries;
-using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Application.ViewModels.SelectorModels;
 
 namespace UrphaCapital.Application.UseCases.Selects.Handlers
 {

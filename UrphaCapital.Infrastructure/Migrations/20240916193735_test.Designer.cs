@@ -348,7 +348,7 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Paymentss");
+                    b.ToTable("ClickTransactions");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Test", b =>

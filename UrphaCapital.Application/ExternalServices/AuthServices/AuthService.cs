@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.Application.ExternalServices.AuthServices

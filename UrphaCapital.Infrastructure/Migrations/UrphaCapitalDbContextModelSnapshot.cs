@@ -90,10 +90,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "24dDXhFhsubK1TjpHYRVQ/leqv8xmcH0Fr8Q8Wn0rnM=",
+                            PasswordHash = "aOJMDZUsiOMgYlSL+mbN19lnE+32FcTChy/poRp4+EU=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "101e6e94-0f83-4bf2-bea1-e40317770900"
+                            Salt = "a807791d-5a2f-4467-8c64-ace484cae52a"
                         });
                 });
 
@@ -184,6 +184,37 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.ClickTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<long>("ClickTransId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MerchantTransId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("SignTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("Situation")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClickTransactions");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Course", b =>
@@ -318,36 +349,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("UrphaCapital.Domain.Entities.Payment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<long>("StudentId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Paymentss");
-                });
-
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Test", b =>
                 {
                     b.Property<long>("Id")
@@ -412,25 +413,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("UrphaCapital.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("UrphaCapital.Domain.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("UrphaCapital.Domain.Entities.Auth.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Test", b =>

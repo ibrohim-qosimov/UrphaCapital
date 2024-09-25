@@ -130,7 +130,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Paymentss",
+                name: "ClickTransactions",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -250,12 +250,12 @@ namespace UrphaCapital.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Paymentss_CourseId",
-                table: "Paymentss",
+                table: "ClickTransactions",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Paymentss_StudentId",
-                table: "Paymentss",
+                table: "ClickTransactions",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
@@ -280,7 +280,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                 name: "Homeworks");
 
             migrationBuilder.DropTable(
-                name: "Paymentss");
+                name: "ClickTransactions");
 
             migrationBuilder.DropTable(
                 name: "Tests");

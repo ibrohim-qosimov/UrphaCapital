@@ -1,6 +1,6 @@
-﻿namespace UrphaCapital.Application.ViewModels
+﻿namespace UrphaCapital.Application.ViewModels.AuthModels
 {
-    public class MentorLogin
+    public class AdminLogin
     {
         public string Email { get; set; }
         public string Password { get; set; }

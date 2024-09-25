@@ -1,4 +1,4 @@
-﻿namespace UrphaCapital.Application.ViewModels
+﻿namespace UrphaCapital.Application.ViewModels.SelectorModels
 {
     public class CourseSelectModel
     {

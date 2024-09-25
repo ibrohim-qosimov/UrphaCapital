@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Application.ViewModels.SelectorModels;
 
 namespace UrphaCapital.Application.UseCases.Selects.Queries
 {
