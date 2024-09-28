@@ -1,14 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities;
 using UrphaCapital.Domain.Entities.Auth;
 
@@ -51,8 +49,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("get-my-courses/{id}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Student")]
+        [Authorize(Roles = "Admin, Students")]
         public async Task<IEnumerable<Course>> GetMyCoursesById(long id, CancellationToken cancellation)
         {
             var query = new GetStudentCoursesQuery { Id = id };
@@ -87,8 +84,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut("add-course")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Student")]
+        [Authorize(Roles = "Admin, Student")]
         public async Task<ResponseModel> AddMyCourse([FromQuery] AddMyCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
