@@ -1,6 +1,4 @@
-﻿using UrphaCapital.Domain.Entities.Auth;
-
-namespace UrphaCapital.Domain.Entities
+﻿namespace UrphaCapital.Domain.Entities
 {
     public class ClickTransaction
     {

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
@@ -19,7 +18,7 @@ namespace UrphaCapital.API.Controllers
         private readonly IPasswordHasher _passwordHasher;
         private readonly IAuthService _authService;
 
-        public AuthController(IMediator mediator, IPasswordHasher passwordHasher,IAuthService authService)
+        public AuthController(IMediator mediator, IPasswordHasher passwordHasher, IAuthService authService)
         {
             _mediator = mediator;
             _passwordHasher = passwordHasher;

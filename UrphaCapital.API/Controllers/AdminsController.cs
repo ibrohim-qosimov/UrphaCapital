@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
@@ -6,7 +7,6 @@ using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Admins.Commands;
 using UrphaCapital.Application.UseCases.Admins.Queries;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Application.ViewModels.AuthModels;
 using UrphaCapital.Domain.Entities.Auth;
 
 namespace UrphaCapital.API.Controllers
@@ -46,6 +46,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpGet("{index}/{count}")]
         [EnableRateLimiting("sliding")]
+        [Authorize("Admin")]
         public async Task<IEnumerable<Admin>> GetAdmins(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllAdminsQuery()

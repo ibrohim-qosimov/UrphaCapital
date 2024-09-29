@@ -28,8 +28,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Student")]
+        [Authorize(Roles = "Admin, Student")]
         public async Task<ResponseModel> PostStudent([FromBody] CreateStudentsCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
