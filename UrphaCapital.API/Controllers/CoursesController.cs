@@ -20,7 +20,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Create([FromForm] CreateCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -77,7 +77,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Delete(Guid id, CancellationToken cancellation)
         {
             var command = new DeleteCourseCommand { Id = id };

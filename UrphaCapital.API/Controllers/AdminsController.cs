@@ -46,7 +46,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpGet("{index}/{count}")]
         [EnableRateLimiting("sliding")]
-        [Authorize("Admin")]
+        //[Authorize("Admin")]
         public async Task<IEnumerable<Admin>> GetAdmins(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllAdminsQuery()

@@ -26,7 +26,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Create([FromForm] CreateMentorCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -35,7 +35,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<Mentor> GetById(long id, CancellationToken cancellation)
         {
             var query = new GetMentorByIdQuery { Id = id };
@@ -46,7 +46,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Mentor>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllMentorsQuery()
@@ -61,7 +61,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Update([FromForm] UpdateMentorCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -70,7 +70,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<ResponseModel> Delete(long id, CancellationToken cancellation)
         {
             var command = new DeleteMentorCommand { Id = id };

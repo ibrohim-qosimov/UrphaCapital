@@ -28,8 +28,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
+        //[Authorize(Roles = "Admin, Mentor")]
         public async Task<ResponseModel> RemoveHomework(long id, CancellationToken cancellation)
         {
             var command = new DeleteHomeworkCommand { Id = id };
@@ -48,8 +47,8 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut("grade-homework")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
+        //[Authorize(Roles = "Admin, Mentor")]
+
         public async Task<ResponseModel> PutHomework([FromBody] GradeHomeworkCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -58,9 +57,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{studentId}/results/{index}/{count}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Admin, Mentor, Student")]
         public async Task<IEnumerable<HomeworkResultView>> GetStudentHomeworkResults(long studentId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetStudentHomeworkResultsQuery()
@@ -76,9 +73,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Admin, Mentor")]
         public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllHomeworksQuery()
@@ -93,8 +88,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{mentorId}/{index}/{count}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
+        //[Authorize(Roles = "Admin, Mentor")]
         public async Task<IEnumerable<Homeworks>> GetAllHomeworksByMentorId(int index, int count, long mentorId, CancellationToken cancellation)
         {
             var query = new Application.UseCases.Homework.Queries.GetAllHomeworksByMentorIdQuery()
@@ -110,8 +104,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("bylesson/{lessonId}/{index}/{count}")]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Mentor")]
+        //[Authorize(Roles = "Admin, Mentor")]
         public async Task<IEnumerable<Homeworks>> GetAllHomeworksByLessonId(int index, int count, long lessonId, CancellationToken cancellation)
         {
             var query = new Application.UseCases.Homework.Queries.GetAllHomeworksByLessonIdQuery()

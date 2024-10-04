@@ -28,7 +28,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Student")]
+        //[Authorize(Roles = "Admin, Student")]
         public async Task<ResponseModel> PostStudent([FromBody] CreateStudentsCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -37,7 +37,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<Student> GetStudentById(long id, CancellationToken cancellation)
         {
             var query = new GetAllStudentsByIdQuery { Id = id };
@@ -48,7 +48,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("get-my-courses/{id}")]
-        [Authorize(Roles = "Admin, Students")]
+        //[Authorize(Roles = "Admin, Students")]
         public async Task<IEnumerable<Course>> GetMyCoursesById(long id, CancellationToken cancellation)
         {
             var query = new GetStudentCoursesQuery { Id = id };
@@ -59,7 +59,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Student>> GetStudentsByStudentId(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllStudentsQuery()
@@ -74,7 +74,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> PutStudent([FromBody] UpdateStudentCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -83,7 +83,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut("add-course")]
-        [Authorize(Roles = "Admin, Student")]
+        //[Authorize(Roles = "Admin, Student")]
         public async Task<ResponseModel> AddMyCourse([FromQuery] AddMyCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
@@ -92,7 +92,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> RemoveStudent(string id, CancellationToken cancellation)
         {
             var command = new DeleteLessonCommand { Id = id };
