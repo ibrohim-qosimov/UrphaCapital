@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
+using UrphaCapital.API.Configurations;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.ViewModels.PaymentModels;
 using UrphaCapital.Application.ViewModels.PaymentModels.Exceptions;
+using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.API.Controllers.Payment
 {
@@ -10,38 +15,141 @@ namespace UrphaCapital.API.Controllers.Payment
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
-
-        public PaymentController(IPaymentService paymentService)
+        private readonly ClickConfig _clickConfig;
+        public PaymentController(IPaymentService paymentService, IConfiguration configuration)
         {
+            _clickConfig = configuration.GetSection("ClickConfig").Get<ClickConfig>()!;
             _paymentService = paymentService;
         }
 
         [HttpPost("prepare")]
-        public async Task<IActionResult> Preapare(PrepareRequest prepareRequest)
+        public async Task<IActionResult> Prepare()
         {
-            try
+            var form = Request.Form;
+            var clickTransId = form["click_trans_id"];
+            var serviceId = form["service_id"];
+            var clickPaydocId = form["click_paydoc_id"];
+            var merchantTransId = form["merchant_trans_id"];
+            var amount = form["amount"];
+            var action = form["action"];
+            var signTime = form["sign_time"];
+            var error = form["error"];
+            var errorNote = form["error_note"];
+            var signString = form["sign_string"];
+
+            var generatedSignString = GenerateSignString(
+                                long.Parse(clickTransId),
+                                int.Parse(serviceId),
+                                _clickConfig.SecretKey,
+                                merchantTransId,
+                                decimal.Parse(amount),
+                                int.Parse(action),
+                                signTime);
+
+            if (signString != generatedSignString)
+                return BadRequest(new { error = -1, error_note = "Invalid sign_string" });
+
+            if (merchantTransId != "1")
+                return BadRequest(new { error = -6, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
+
+            //var clickTransaction = new ClickTransaction
+            //{
+            //    ClickTransId = long.Parse(clickTransId),
+            //    MerchantTransId = merchantTransId,
+            //    Amount = decimal.Parse(amount),
+            //    SignTime = signTime,
+            //    Status = EOrderPaymentStatus.Pending,
+            //};
+
+            //_context.ClickTransactions.Add(clickTransaction);
+            //_context.SaveChanges();
+
+            var response = new PrepareResponse()
             {
-                var response = await _paymentService.Prepare(prepareRequest);
-                return Ok(response);
+                //ClickTransId = clickTransaction.ClickTransId,
+                //MerchantTransId = clickTransaction.MerchantTransId,
+                MerchantPrepareId = 1,
+                Error = 0,
+                ErrorNote = "Payment prepared successfully"
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost("complete")]
+        public async Task<IActionResult> Complete()
+        {
+            var form = Request.Form;
+
+            var clickTransId = long.Parse(form["click_trans_id"]);
+            var serviceId = int.Parse(form["service_id"]);
+            var clickPaydocId = long.Parse(form["click_paydoc_id"]);
+            var merchantTransId = form["merchant_trans_id"];
+            var merchantPrepareId = int.Parse(form["merchant_prepare_id"]);
+            var amount = decimal.Parse(form["amount"]);
+            var action = int.Parse(form["action"]);
+            var error = int.Parse(form["error"]);
+            var errorNote = form["error_note"];
+            var signTime = form["sign_time"];
+            var signString = form["sign_string"];
+
+
+            var generatedSignString = GenerateSignString(
+                clickTransId,
+                serviceId,
+                _clickConfig.SecretKey,
+                merchantTransId,
+                merchantPrepareId,
+                amount,
+                action,
+                signTime);
+
+
+            if (signString != generatedSignString)
+                return BadRequest(new { error = -1, error_note = "Invalid sign_string" });
+
+            if (merchantTransId != "1")
+                return BadRequest(new { error = -9, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
+
+            //var clickTransaction = _context.ClickTransactions.FirstOrDefault(c => c.ClickTransId == clickTransId);
+            //if (clickTransaction != null)
+            //    clickTransaction.Status = EOrderPaymentStatus.Paid;
+
+            //_context.SaveChanges();
+
+            return Ok(new ComplateResponse()
+            {
+                // ClickTransId = clickTransaction.ClickTransId,
+                // MerchantTransId = clickTransaction.MerchantTransId,
+                // MerchantConfirmId = clickTransaction.Id,
+                Error = 0,
+                ErrorNote = "Payment Success"
+            });
+        }
+
+
+        private string GenerateSignString(long clickTransId, int serviceId, string secretKey, string merchantTransId, decimal amount, int action, string signTime)
+        {
+            var signString = $"{clickTransId}{serviceId}{secretKey}{merchantTransId}{amount}{action}{signTime}";
+            using (var md5 = MD5.Create())
+            {
+                var inputBytes = Encoding.UTF8.GetBytes(signString);
+                var hashBytes = md5.ComputeHash(inputBytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
             }
-            catch (InvalidSignStringException)
+        }
+        private string GenerateSignString(long clickTransId, int serviceId, string secretKey, string merchantTransId, int merchantPrepareId, decimal amount, int action, string signTime)
+        {
+            var signString = $"{clickTransId}{serviceId}{secretKey}{merchantTransId}{merchantPrepareId}{amount}{action}{signTime}";
+
+            using (var md5 = MD5.Create())
             {
-                return BadRequest(new { errpr = -1, error_note = "Invalid sign_string" });
+                var inputBytes = Encoding.UTF8.GetBytes(signString);
+                var hashBytes = md5.ComputeHash(inputBytes);
+
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
             }
         }
 
-        [HttpPost("complate")]
-        public async Task<IActionResult> Complate(ComplateRequest complateRequest)
-        {
-            try
-            {
-                var response = await _paymentService.Complate(complateRequest);
-                return Ok(response);
-            }
-            catch (InvalidSignStringException)
-            {
-                return BadRequest(new { errpr = -1, error_note = "Invalid sign_string" });
-            }
-        }
     }
 }

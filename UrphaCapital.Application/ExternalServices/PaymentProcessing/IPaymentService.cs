@@ -23,9 +23,5 @@ namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
         public Task MakePaymentWithToken(string cardToken, decimal amount, string merchantTransId);
 
         public Task DeleteCardToken(string cardToken);
-
-        public Task<PrepareResponse> Prepare(PrepareRequest prepareRequest);
-
-        public Task<ComplareResponse> Complate(ComplateRequest complateRequest);
     }
 }
