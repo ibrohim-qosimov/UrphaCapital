@@ -90,10 +90,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "7K23swqDdRW8mI9Afs3Xb0HN4Aqz5f/pd1em7ZrItJc=",
+                            PasswordHash = "yVWlxJOWTjE5bOKu4aD/yZSsJje+VWLLvSGT282bXlw=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "e615945c-8d00-43d1-8ba2-62a8dff735b0"
+                            Salt = "9f473182-ee6b-43c8-8fd4-79d21e62f90b"
                         });
                 });
 
@@ -347,6 +347,31 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.Result", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Test", b =>

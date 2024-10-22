@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,6 +29,23 @@ namespace UrphaCapital.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Admins", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClickTransactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClickTransId = table.Column<long>(type: "bigint", nullable: false),
+                    MerchantTransId = table.Column<string>(type: "text", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    SignTime = table.Column<string>(type: "text", nullable: false),
+                    Situation = table.Column<int>(type: "integer", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClickTransactions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,6 +82,21 @@ namespace UrphaCapital.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mentors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PictureUrl = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,34 +159,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                         name: "FK_Lessons_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClickTransactions",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StudentId = table.Column<long>(type: "bigint", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    PaymentStatus = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Paymentss", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Paymentss_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Paymentss_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -226,7 +232,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "24dDXhFhsubK1TjpHYRVQ/leqv8xmcH0Fr8Q8Wn0rnM=", "+998934013443", "SuperAdmin", "101e6e94-0f83-4bf2-bea1-e40317770900" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "yVWlxJOWTjE5bOKu4aD/yZSsJje+VWLLvSGT282bXlw=", "+998934013443", "SuperAdmin", "9f473182-ee6b-43c8-8fd4-79d21e62f90b" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",
@@ -249,16 +255,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Paymentss_CourseId",
-                table: "ClickTransactions",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Paymentss_StudentId",
-                table: "ClickTransactions",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tests_LessonId",
                 table: "Tests",
                 column: "LessonId");
@@ -274,19 +270,22 @@ namespace UrphaCapital.Infrastructure.Migrations
                 name: "Answers");
 
             migrationBuilder.DropTable(
+                name: "ClickTransactions");
+
+            migrationBuilder.DropTable(
                 name: "Helps");
 
             migrationBuilder.DropTable(
                 name: "Homeworks");
 
             migrationBuilder.DropTable(
-                name: "ClickTransactions");
-
-            migrationBuilder.DropTable(
-                name: "Tests");
+                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Tests");
 
             migrationBuilder.DropTable(
                 name: "Lessons");

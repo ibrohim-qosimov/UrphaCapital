@@ -24,6 +24,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Homeworks> Homeworks { get; set; }
         public DbSet<Help> Helps { get; set; }
         public DbSet<ClickTransaction> ClickTransactions { get; set; }
+        public DbSet<Result> Results { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
