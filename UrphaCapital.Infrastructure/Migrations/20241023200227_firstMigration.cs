@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -234,7 +234,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "nhbWImNYuG/jJoosbYJrzIcvp0rvNfdg+um7EIeA9fM=", "+998934013443", "SuperAdmin", "608af1fd-d333-4e06-a98d-8c55e0c902ad" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "hqrDexSpYly+KPaMHcBXxT7Y+gcF0/kO40y2K6ijUJQ=", "+998934013443", "SuperAdmin", "55e58b87-807b-4b8e-a581-4d76e93efe33" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",
