@@ -1,6 +1,4 @@
-﻿using UrphaCapital.Application.ViewModels.PaymentModels;
-
-namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
+﻿namespace UrphaCapital.Application.ExternalServices.PaymentProcessing
 {
     public interface IPaymentService
     {

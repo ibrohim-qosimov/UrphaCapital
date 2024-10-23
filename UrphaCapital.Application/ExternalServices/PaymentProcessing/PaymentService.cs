@@ -2,9 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.Application.Abstractions;
-using UrphaCapital.Application.ViewModels.PaymentModels;
-using UrphaCapital.Application.ViewModels.PaymentModels.Exceptions;
-using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.ExternalServices.PaymentProcessing;
 

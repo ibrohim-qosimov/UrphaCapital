@@ -1,12 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Requests.Abstractions;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Results.Commands;
 using UrphaCapital.Application.ViewModels;

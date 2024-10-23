@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.API.Configurations;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.ViewModels.PaymentModels;
-using UrphaCapital.Application.ViewModels.PaymentModels.Exceptions;
 using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.API.Controllers.Payment
