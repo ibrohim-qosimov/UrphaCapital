@@ -2,7 +2,7 @@
 {
     public class ClickTransaction
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
         public long ClickTransId { get; set; }
         public string MerchantTransId { get; set; }
         public decimal Amount { get; set; }

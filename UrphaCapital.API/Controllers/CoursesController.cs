@@ -78,7 +78,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpDelete("{id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<ResponseModel> Delete(Guid id, CancellationToken cancellation)
+        public async Task<ResponseModel> Delete(int id, CancellationToken cancellation)
         {
             var command = new DeleteCourseCommand { Id = id };
 

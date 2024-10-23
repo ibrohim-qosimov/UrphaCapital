@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.API.Configurations;
+using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.ViewModels.PaymentModels;
 using UrphaCapital.Application.ViewModels.PaymentModels.Exceptions;
@@ -14,12 +15,14 @@ namespace UrphaCapital.API.Controllers.Payment
     [ApiController]
     public class PaymentController : ControllerBase
     {
+        private readonly IApplicationDbContext _context;
         private readonly IPaymentService _paymentService;
         private readonly ClickConfig _clickConfig;
-        public PaymentController(IPaymentService paymentService, IConfiguration configuration)
+        public PaymentController(IPaymentService paymentService, IConfiguration configuration, IApplicationDbContext context)
         {
             _clickConfig = configuration.GetSection("ClickConfig").Get<ClickConfig>()!;
             _paymentService = paymentService;
+            _context = context;
         }
 
         [HttpPost("prepare")]
@@ -52,22 +55,22 @@ namespace UrphaCapital.API.Controllers.Payment
             if (merchantTransId != "1")
                 return BadRequest(new { error = -6, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
 
-            //var clickTransaction = new ClickTransaction
-            //{
-            //    ClickTransId = long.Parse(clickTransId),
-            //    MerchantTransId = merchantTransId,
-            //    Amount = decimal.Parse(amount),
-            //    SignTime = signTime,
-            //    Status = EOrderPaymentStatus.Pending,
-            //};
+            var clickTransaction = new ClickTransaction
+            {
+                ClickTransId = long.Parse(clickTransId),
+                MerchantTransId = merchantTransId,
+                Amount = decimal.Parse(amount),
+                SignTime = signTime,
+                Status = EOrderPaymentStatus.Pending,
+            };
 
-            //_context.ClickTransactions.Add(clickTransaction);
-            //_context.SaveChanges();
+            _context.ClickTransactions.Add(clickTransaction);
+            await _context.SaveChangesAsync();
 
             var response = new PrepareResponse()
             {
-                //ClickTransId = clickTransaction.ClickTransId,
-                //MerchantTransId = clickTransaction.MerchantTransId,
+                ClickTransId = clickTransaction.ClickTransId,
+                MerchantTransId = clickTransaction.MerchantTransId,
                 MerchantPrepareId = 1,
                 Error = 0,
                 ErrorNote = "Payment prepared successfully"
@@ -111,17 +114,17 @@ namespace UrphaCapital.API.Controllers.Payment
             if (merchantTransId != "1")
                 return BadRequest(new { error = -9, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
 
-            //var clickTransaction = _context.ClickTransactions.FirstOrDefault(c => c.ClickTransId == clickTransId);
-            //if (clickTransaction != null)
-            //    clickTransaction.Status = EOrderPaymentStatus.Paid;
+            var clickTransaction = _context.ClickTransactions.FirstOrDefault(c => c.ClickTransId == clickTransId);
+            if (clickTransaction != null)
+                clickTransaction.Status = EOrderPaymentStatus.Paid;
 
-            //_context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(new ComplateResponse()
             {
-                // ClickTransId = clickTransaction.ClickTransId,
-                // MerchantTransId = clickTransaction.MerchantTransId,
-                // MerchantConfirmId = clickTransaction.Id,
+                ClickTransId = clickTransaction.ClickTransId,
+                MerchantTransId = clickTransaction.MerchantTransId,
+                MerchantConfirmId = clickTransaction.Id,
                 Error = 0,
                 ErrorNote = "Payment Success"
             });
