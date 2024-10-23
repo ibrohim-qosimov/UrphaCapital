@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.ErrorSender;
 using UrphaCapital.Application.ExternalServices.HasherServices;
@@ -13,7 +14,7 @@ namespace UrphaCapital.Application
         public static IServiceCollection AddUrphaCapitalApplicationDependencyInjection(this IServiceCollection services)
         {
 
-            services.AddMediatR(typeof(GetStudentByEmailQueryHandler).Assembly);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IErrorSenderService, ErrorSenderService>();
