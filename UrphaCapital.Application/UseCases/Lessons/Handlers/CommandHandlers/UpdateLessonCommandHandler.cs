@@ -72,8 +72,8 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
             if (request.Name != null)
                 lesson.Title = request.Name;
 
-            if (request.CourseId != null)
-                lesson.CourseId = (Guid)request.CourseId;
+            if (request is not null && request.CourseId != null)
+                lesson.CourseId = (int)request.CourseId;
 
             if (request.HomeworkDescription != null)
                 lesson.HomeworkDescription = request.HomeworkDescription;

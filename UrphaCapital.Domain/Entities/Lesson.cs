@@ -6,9 +6,7 @@
         public string Title { get; set; }
         public string HomeworkDescription { get; set; }
         public string Video { get; set; }
-        public Guid CourseId { get; set; }
-
-
+        public int CourseId { get; set; }
         public Course Course { get; set; }
     }
 }

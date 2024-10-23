@@ -18,7 +18,7 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.QueryHandlers
         public async Task<IEnumerable<Lesson>> Handle(GetAllLessonsByCourseIdQuery request, CancellationToken cancellationToken)
         {
             return await _context.Lessons
-                .Where(l => l.CourseId.ToString() == request.CourseId)
+                .Where(l => l.CourseId == request.CourseId)
                 .Skip(request.Index - 1)
                 .Take(request.Count)
                 .Select(x => new Lesson
