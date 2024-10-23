@@ -61,7 +61,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpGet("{courseId}/{index}/{count}")]
         //[Authorize(Roles = "Admin, Mentor, Student")]
-        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(string courseId, int index, int count, CancellationToken cancellation)
+        public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(int courseId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllLessonsByCourseIdQuery()
             {
