@@ -13,7 +13,7 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20241023185932_test")]
+    [Migration("20241023192431_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -93,10 +93,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "MVjE2ALHI0lSCHgt6fpbu7vT4wEu8/XzgamSXlZ9oQw=",
+                            PasswordHash = "nhbWImNYuG/jJoosbYJrzIcvp0rvNfdg+um7EIeA9fM=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "fe838918-ecf9-4063-8a78-6db39979ebe9"
+                            Salt = "608af1fd-d333-4e06-a98d-8c55e0c902ad"
                         });
                 });
 
@@ -246,9 +246,8 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Subtitle")
                         .IsRequired()

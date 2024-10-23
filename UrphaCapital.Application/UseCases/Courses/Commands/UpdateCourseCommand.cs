@@ -11,7 +11,7 @@ namespace UrphaCapital.Application.UseCases.Courses.Commands
         public string? Description { get; set; }
         public string? Subtitle { get; set; }
         public IFormFile? Picture { get; set; }
-        public string? Price { get; set; }
+        public decimal? Price { get; set; }
         public long? MentorId { get; set; }
     }
 }

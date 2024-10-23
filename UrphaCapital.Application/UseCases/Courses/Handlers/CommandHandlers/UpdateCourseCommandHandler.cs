@@ -81,7 +81,7 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, R
             course.Subtitle = request.Subtitle;
 
         if (request.Price != null)
-            course.Price = request.Price;
+            course.Price = (decimal)request.Price;
 
         if (request.MentorId != null)
             course.MentorId = (long)request.MentorId;

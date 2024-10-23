@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -128,7 +130,7 @@ namespace UrphaCapital.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Subtitle = table.Column<string>(type: "text", nullable: false),
                     Picture = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
                     MentorId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -232,7 +234,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "MVjE2ALHI0lSCHgt6fpbu7vT4wEu8/XzgamSXlZ9oQw=", "+998934013443", "SuperAdmin", "fe838918-ecf9-4063-8a78-6db39979ebe9" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "nhbWImNYuG/jJoosbYJrzIcvp0rvNfdg+um7EIeA9fM=", "+998934013443", "SuperAdmin", "608af1fd-d333-4e06-a98d-8c55e0c902ad" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",

@@ -9,7 +9,7 @@ namespace UrphaCapital.Domain.Entities
         public string Description { get; set; }
         public string Subtitle { get; set; }
         public string Picture { get; set; }
-        public string Price { get; set; }
+        public decimal Price { get; set; }
         public long MentorId { get; set; }
         public Mentor Mentor { get; set; }
     }
