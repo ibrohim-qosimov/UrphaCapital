@@ -28,6 +28,20 @@ namespace UrphaCapital.Infrastructure.Persistanse
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Admin>()
+                .HasIndex(i => i.Email)
+                    .IsUnique();
+
+            modelBuilder.Entity<Student>()
+                .HasIndex(i => i.Email)
+                    .IsUnique();
+
+            modelBuilder.Entity<Mentor>()
+                .HasIndex(i => i.Email)
+                    .IsUnique();
+
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Homeworks>()
     .HasOne(h => h.Lesson)

@@ -82,6 +82,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Admins");
 
                     b.HasData(
@@ -90,10 +93,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "pzvrqLApZXV+oz7KAG4Y8VkLed88mEh4HRBT88dT7e8=",
+                            PasswordHash = "VEa/Z+RjPUpEsqzRr+dkFucLxvaMjBIOEjpBga1T+3I=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "46dec9e0-d8e2-423f-9dfa-800e431a5a6f"
+                            Salt = "e5f7d0b9-244e-4366-9543-49201f7f2a73"
                         });
                 });
 
@@ -139,6 +142,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Mentors");
                 });
 
@@ -183,6 +189,9 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });

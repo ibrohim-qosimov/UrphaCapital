@@ -13,8 +13,8 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20241023200227_firstMigration")]
-    partial class firstMigration
+    [Migration("20241026164401_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Admins");
 
                     b.HasData(
@@ -93,10 +96,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "hqrDexSpYly+KPaMHcBXxT7Y+gcF0/kO40y2K6ijUJQ=",
+                            PasswordHash = "VEa/Z+RjPUpEsqzRr+dkFucLxvaMjBIOEjpBga1T+3I=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "55e58b87-807b-4b8e-a581-4d76e93efe33"
+                            Salt = "e5f7d0b9-244e-4366-9543-49201f7f2a73"
                         });
                 });
 
@@ -142,6 +145,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Mentors");
                 });
 
@@ -186,6 +192,9 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });

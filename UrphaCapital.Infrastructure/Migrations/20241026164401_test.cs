@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -234,7 +234,13 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "hqrDexSpYly+KPaMHcBXxT7Y+gcF0/kO40y2K6ijUJQ=", "+998934013443", "SuperAdmin", "55e58b87-807b-4b8e-a581-4d76e93efe33" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "VEa/Z+RjPUpEsqzRr+dkFucLxvaMjBIOEjpBga1T+3I=", "+998934013443", "SuperAdmin", "e5f7d0b9-244e-4366-9543-49201f7f2a73" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Admins_Email",
+                table: "Admins",
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_TestId",
@@ -255,6 +261,18 @@ namespace UrphaCapital.Infrastructure.Migrations
                 name: "IX_Lessons_CourseId",
                 table: "Lessons",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mentors_Email",
+                table: "Mentors",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_Email",
+                table: "Students",
+                column: "Email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tests_LessonId",
