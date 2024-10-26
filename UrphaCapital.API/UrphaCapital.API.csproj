@@ -25,6 +25,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\CoursesPictures\" />
+    <Folder Include="wwwroot\HomeworkFile\" />
+    <Folder Include="wwwroot\LessonVideos\" />
+    <Folder Include="wwwroot\MentorsPictures\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>

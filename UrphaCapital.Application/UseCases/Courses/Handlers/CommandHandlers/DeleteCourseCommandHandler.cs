@@ -32,10 +32,12 @@ namespace UrphaCapital.Application.UseCases.Courses.Handlers.CommandHandlers
                 };
             }
 
-            var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, course.Picture);
+            var relativePath = course.Picture.TrimStart('/');
+            var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
 
             if (File.Exists(deleteFilePath))
                 File.Delete(deleteFilePath);
+
 
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync(cancellationToken);

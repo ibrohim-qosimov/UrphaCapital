@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
 {
@@ -30,11 +31,12 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
                     StatusCode = 404
                 };
 
-            var filePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, lesson.Video);
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
+            var relativePath = lesson.Video.TrimStart('/');
+            var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
+
+            if (File.Exists(deleteFilePath))
+                File.Delete(deleteFilePath);
+
             _context.Lessons.Remove(lesson);
             await _context.SaveChangesAsync(cancellationToken);
 

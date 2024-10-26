@@ -37,7 +37,9 @@ namespace UrphaCapital.Application.UseCases.Lessons.Handlers.CommandHandlers
                 string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "LessonVideos");
                 string fileName = "";
 
-                var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, lesson.Video);
+                var relativePath = lesson.Video.TrimStart('/');
+                var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
+
                 if (File.Exists(deleteFilePath))
                     File.Delete(deleteFilePath);
 

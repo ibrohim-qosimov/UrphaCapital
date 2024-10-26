@@ -29,10 +29,11 @@ namespace UrphaCapital.Application.UseCases.Results.Handlers.CommandHandlers
 
             if (request.Picture != null)
             {
-                var deletedFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, result.PictureUrl);
+                var relativePath = result.PictureUrl.TrimStart('/');
+                var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
 
-                if (File.Exists(deletedFilePath))
-                    File.Delete(deletedFilePath);
+                if (File.Exists(deleteFilePath))
+                    File.Delete(deleteFilePath);
 
                 var file = request.Picture;
                 string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "ResultPhotos");

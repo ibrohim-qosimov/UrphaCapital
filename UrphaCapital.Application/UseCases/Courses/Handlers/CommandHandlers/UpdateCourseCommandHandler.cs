@@ -34,8 +34,8 @@ public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, R
 
         if (request.Picture != null)
         {
-
-            var deleteFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, course.Picture);
+            var relativePath = course.Picture.TrimStart('/');
+            var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
 
             if (File.Exists(deleteFilePath))
                 File.Delete(deleteFilePath);
