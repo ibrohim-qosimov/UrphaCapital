@@ -7,7 +7,7 @@ namespace UrphaCapital.API.Middlewares
     {
         public RequestDelegate _next;
         public ILogger<GlobalExceptionHandler> _logger;
-        public GlobalExceptionHandler(RequestDelegate requestDelegate, ILogger<GlobalExceptionHandler> logger, IErrorSenderService errorSenderService)
+        public GlobalExceptionHandler(RequestDelegate requestDelegate, ILogger<GlobalExceptionHandler> logger)
         {
             _next = requestDelegate;
             _logger = logger;
