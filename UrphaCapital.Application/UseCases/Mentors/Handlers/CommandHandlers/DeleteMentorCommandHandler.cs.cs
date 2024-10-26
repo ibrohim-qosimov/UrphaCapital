@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
 {
@@ -32,15 +33,17 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
                 };
             }
 
-            var filePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture);
+            var relativePath = mentor.Picture.TrimStart('/');
+            var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
 
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
+            if (File.Exists(deleteFilePath))
+                File.Delete(deleteFilePath);
+
 
             _context.Mentors.Remove(mentor);
             await _context.SaveChangesAsync(cancellationToken);
+
+
 
             return new ResponseModel()
             {

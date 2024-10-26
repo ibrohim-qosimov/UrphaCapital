@@ -6,6 +6,7 @@ using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
+using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers;
 public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, ResponseModel>
@@ -37,10 +38,11 @@ public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, R
 
         if (request.Picture != null)
         {
-            var deletedFilePath = Path.Combine("wwwroot", _webHostEnvironment.WebRootPath, mentor.Picture);
+            var relativePath = mentor.Picture.TrimStart('/');
+            var deleteFilePath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
 
-            if (File.Exists(deletedFilePath))
-                File.Delete(deletedFilePath);
+            if (File.Exists(deleteFilePath))
+                File.Delete(deleteFilePath);
 
             var file = request.Picture;
             string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "MentorsPictures");
@@ -70,17 +72,7 @@ public class UpdateMentorCommandHandler : IRequestHandler<UpdateMentorCommand, R
                     IsSuccess = false
                 };
             }
-
             mentor.Picture = "/MentorsPictures/" + fileName;
-        }
-
-
-        if (request.PasswordHash != null)
-        {
-            var salt = Guid.NewGuid().ToString();
-            var hashedPassword = _passwordHasher.Encrypt(request.PasswordHash, salt);
-            mentor.PasswordHash = hashedPassword;
-            mentor.Salt = salt;
         }
 
         if (request.Name != null)
