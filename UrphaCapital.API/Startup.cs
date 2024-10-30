@@ -58,7 +58,7 @@ namespace UrphaCapital.API
             //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configRoot["JWTSettings:SecretKey"]!))
             //    };
             //});
-
+            services.AddOptions();
             services.AddHttpClient();
             services.AddUrphaCapitalApplicationDependencyInjection();
             services.AddUrphaCapitalInfrastructureDependencyInjection(configRoot);
