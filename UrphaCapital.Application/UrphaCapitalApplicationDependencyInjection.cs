@@ -5,6 +5,7 @@ using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.ErrorSender;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
+using UrphaCapital.Application.UseCases.Courses.Queries;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Handlers.QueryHandler;
 
 namespace UrphaCapital.Application
@@ -14,7 +15,7 @@ namespace UrphaCapital.Application
         public static IServiceCollection AddUrphaCapitalApplicationDependencyInjection(this IServiceCollection services)
         {
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(GetAllCoursesQuery).Assembly);
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<IErrorSenderService, ErrorSenderService>();
