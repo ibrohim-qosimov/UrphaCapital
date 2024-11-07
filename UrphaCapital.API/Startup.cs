@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.Features;
+﻿using UrphaCapital.API.Middlewares;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
 using System.Text.Json.Serialization;
 using Telegram.Bot;
-using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
 using UrphaCapital.Infrastructure;
 
@@ -117,7 +117,7 @@ namespace UrphaCapital.API
                 app.UseSwaggerUI();
             }
 
-            app.UseMiddleware<GlobalExceptionHandler>();
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseHttpsRedirection();
 
