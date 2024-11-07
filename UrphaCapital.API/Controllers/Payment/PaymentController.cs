@@ -56,7 +56,6 @@ namespace UrphaCapital.API.Controllers.Payment
             if (signString != generatedSignString)
                 return Ok(new { error = -1, error_note = "Sign check failed!" });
 
-            return Ok();
 
             #region order and payer exists check
 
@@ -89,7 +88,7 @@ namespace UrphaCapital.API.Controllers.Payment
 
             #region validation
 
-            if (action != 0)
+            if (int.Parse(action) != 0)
                 return Ok(new { error = -3, error_note = "Action not found!" });
 
             if (action == -4)
@@ -156,6 +155,7 @@ namespace UrphaCapital.API.Controllers.Payment
                 action,
                 signTime);
 
+            
             #region validation 
 
             if (signString != generatedSignString)
@@ -166,7 +166,7 @@ namespace UrphaCapital.API.Controllers.Payment
             if (clickTransaction != null)
                 clickTransaction.Status = EOrderPaymentStatus.Paid;
 
-            if (action != 0)
+            if (action == 0)
                 return Ok(new { error = -3, error_note = "Action not found!" });
 
             if (action == -4)
