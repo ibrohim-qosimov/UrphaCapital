@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.API.Configurations;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
+using UrphaCapital.Application.UseCases.Courses.Queries;
 using UrphaCapital.Application.ViewModels.PaymentModels;
 using UrphaCapital.Domain.Entities;
 
@@ -15,12 +18,14 @@ namespace UrphaCapital.API.Controllers.Payment
     {
         private readonly IApplicationDbContext _context;
         private readonly IPaymentService _paymentService;
+        private readonly IMediator _mediator;
         private readonly ClickConfig _clickConfig;
-        public PaymentController(IPaymentService paymentService, IConfiguration configuration, IApplicationDbContext context)
+        public PaymentController(IPaymentService paymentService, IConfiguration configuration, IApplicationDbContext context, IMediator mediator)
         {
             _clickConfig = configuration.GetSection("ClickConfig").Get<ClickConfig>()!;
             _paymentService = paymentService;
             _context = context;
+            _mediator = mediator;
         }
 
         [HttpPost("prepare")]
@@ -48,11 +53,35 @@ namespace UrphaCapital.API.Controllers.Payment
                                 signTime);
 
             if (signString != generatedSignString)
-                return BadRequest(new { error = -1, error_note = "Invalid sign_string" });
+                return Ok(new { error = -1, error_note = "Sign check failed!" });
 
-            if (merchantTransId != "1")
-                return BadRequest(new { error = -6, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
+            #region order exists check
 
+            var query = new GetCourseByIdQuery()
+            {
+                Id = merchantTransId
+            };
+
+            var course = await _mediator.Send(query);
+
+            if (course == null)
+                return BadRequest(new { error = -5, error_note = "Invoice not found!" });
+            #endregion
+
+            #region validation
+
+            if (action != 0)
+                return Ok(new { error = -3, error_note = "Action not found!" });
+
+            if (action == -4)
+                return Ok(new { error = -4, error_note = "Already paid!" });
+
+            if (action == -9)
+                return Ok(new { error = -9, error_note = "Transaction cancelled!" });
+
+            #endregion
+
+            #region save transaction
             var clickTransaction = new ClickTransaction
             {
                 ClickTransId = long.Parse(clickTransId),
@@ -64,6 +93,9 @@ namespace UrphaCapital.API.Controllers.Payment
 
             _context.ClickTransactions.Add(clickTransaction);
             await _context.SaveChangesAsync();
+
+            #endregion
+
 
             var response = new PrepareResponse()
             {
@@ -105,26 +137,39 @@ namespace UrphaCapital.API.Controllers.Payment
                 action,
                 signTime);
 
+            #region validation 
 
             if (signString != generatedSignString)
-                return BadRequest(new { error = -1, error_note = "Invalid sign_string" });
+                return Ok(new { error = -5, error_note = "Sign check failed!" });
 
-            if (merchantTransId != "1")
-                return BadRequest(new { error = -9, error_note = "The transaction is not found (check parameter merchant_prepare_id)" });
+            var clickTransaction = await _context.ClickTransactions.Where(c => c.ClickTransId == clickTransId && c.Status == EOrderPaymentStatus.Pending).FirstOrDefaultAsync(); ;
 
-            var clickTransaction = _context.ClickTransactions.FirstOrDefault(c => c.ClickTransId == clickTransId);
             if (clickTransaction != null)
                 clickTransaction.Status = EOrderPaymentStatus.Paid;
 
+            if (action != 0)
+                return Ok(new { error = -3, error_note = "Action not found!" });
+
+            if (action == -4)
+                return Ok(new { error = -4, error_note = "Already paid!" });
+
+            if (action == -9)
+            {
+                clickTransaction.Status = EOrderPaymentStatus.Failed;
+                return Ok(new { error = -9, error_note = "Transaction cancelled!" });
+            }
+
             await _context.SaveChangesAsync();
 
+            #endregion
+           
             return Ok(new ComplateResponse()
             {
                 ClickTransId = clickTransaction.ClickTransId,
                 MerchantTransId = clickTransaction.MerchantTransId,
                 MerchantConfirmId = clickTransaction.Id,
                 Error = 0,
-                ErrorNote = "Payment Success"
+                ErrorNote = "Success"
             });
         }
 
