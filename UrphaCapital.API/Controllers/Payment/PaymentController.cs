@@ -56,6 +56,8 @@ namespace UrphaCapital.API.Controllers.Payment
             if (signString != generatedSignString)
                 return Ok(new { error = -1, error_note = "Sign check failed!" });
 
+            return Ok();
+
             #region order and payer exists check
 
             var courseTypeCheck = int.TryParse(merchantTransId.ToString().Split(":")[0], out int courseId);
