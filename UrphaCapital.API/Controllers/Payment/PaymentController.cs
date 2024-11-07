@@ -59,7 +59,7 @@ namespace UrphaCapital.API.Controllers.Payment
 
             var query = new GetCourseByIdQuery()
             {
-                Id = merchantTransId
+                Id = int.Parse(merchantTransId),
             };
 
             var course = await _mediator.Send(query);

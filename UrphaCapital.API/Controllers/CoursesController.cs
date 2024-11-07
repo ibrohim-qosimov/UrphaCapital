@@ -29,7 +29,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<Course> GetById(string id, CancellationToken cancellation)
+        public async Task<Course> GetById(int id, CancellationToken cancellation)
         {
             var query = new GetCourseByIdQuery { Id = id };
 
