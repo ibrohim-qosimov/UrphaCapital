@@ -1,11 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.API.Configurations;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
+using UrphaCapital.Application.UseCases.ClickTransactions.Commands.CreateCommand;
+using UrphaCapital.Application.UseCases.ClickTransactions.Commands.UpdateCommand;
 using UrphaCapital.Application.UseCases.Courses.Queries;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels.PaymentModels;
@@ -17,15 +20,13 @@ namespace UrphaCapital.API.Controllers.Payment
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IApplicationDbContext _context;
         private readonly IPaymentService _paymentService;
         private readonly IMediator _mediator;
         private readonly ClickConfig _clickConfig;
-        public PaymentController(IPaymentService paymentService, IConfiguration configuration, IApplicationDbContext context, IMediator mediator)
+        public PaymentController(IPaymentService paymentService, IConfiguration configuration, IMediator mediator)
         {
             _clickConfig = configuration.GetSection("ClickConfig").Get<ClickConfig>()!;
             _paymentService = paymentService;
-            _context = context;
             _mediator = mediator;
         }
 
@@ -33,24 +34,24 @@ namespace UrphaCapital.API.Controllers.Payment
         public async Task<IActionResult> Prepare()
         {
             var form = Request.Form;
-            var clickTransId = form["click_trans_id"];
-            var serviceId = form["service_id"];
+            var clickTransId = long.Parse(form["click_trans_id"]);
+            var serviceId = int.Parse(form["service_id"]);
             var clickPaydocId = form["click_paydoc_id"];
             var merchantTransId = form["merchant_trans_id"];
-            var amount = form["amount"];
-            var action = form["action"];
+            var amount = decimal.Parse(form["amount"]);
+            var action = int.Parse(form["action"]);
             var signTime = form["sign_time"];
             var error = form["error"];
             var errorNote = form["error_note"];
             var signString = form["sign_string"];
 
             var generatedSignString = GenerateSignString(
-                                long.Parse(clickTransId),
-                                int.Parse(serviceId),
+                                clickTransId,
+                                serviceId,
                                 _clickConfig.SecretKey,
                                 merchantTransId,
-                                decimal.Parse(amount),
-                                int.Parse(action),
+                                amount,
+                                action,
                                 signTime);
 
             if (signString != generatedSignString)
@@ -88,7 +89,7 @@ namespace UrphaCapital.API.Controllers.Payment
 
             #region validation
 
-            if (int.Parse(action) != 0)
+            if (action != 0)
                 return Ok(new { error = -3, error_note = "Action not found!" });
 
             if (action == -4)
@@ -100,25 +101,30 @@ namespace UrphaCapital.API.Controllers.Payment
             #endregion
 
             #region save transaction
-            var clickTransaction = new ClickTransaction
+
+            var clickTransactionCommand = new CreateTransactionCommand()
             {
-                ClickTransId = long.Parse(clickTransId),
+                ClickTransId = clickTransId,
                 MerchantTransId = merchantTransId,
-                Amount = decimal.Parse(amount),
+                Amount = amount,
                 SignTime = signTime,
-                Status = EOrderPaymentStatus.Pending,
+                Situation = action
             };
 
-            _context.ClickTransactions.Add(clickTransaction);
-            await _context.SaveChangesAsync();
+            var clickTransResponse = await _mediator.Send(clickTransactionCommand);
+
+            if (clickTransResponse == null)
+            {
+                Console.WriteLine("!! Diqqat !! transaksiy saqlanmadi! {0} : {1}", courseId, studentId);
+            }
 
             #endregion
 
 
             var response = new PrepareResponse()
             {
-                ClickTransId = clickTransaction.ClickTransId,
-                MerchantTransId = clickTransaction.MerchantTransId,
+                ClickTransId = clickTransId,
+                MerchantTransId = merchantTransId,
                 MerchantPrepareId = 1,
                 Error = 0,
                 ErrorNote = "Payment prepared successfully"
@@ -155,16 +161,12 @@ namespace UrphaCapital.API.Controllers.Payment
                 action,
                 signTime);
 
-            
+
             #region validation 
 
             if (signString != generatedSignString)
                 return Ok(new { error = -5, error_note = "Sign check failed!" });
 
-            var clickTransaction = await _context.ClickTransactions.Where(c => c.ClickTransId == clickTransId && c.Status == EOrderPaymentStatus.Pending).FirstOrDefaultAsync(); ;
-
-            if (clickTransaction != null)
-                clickTransaction.Status = EOrderPaymentStatus.Paid;
 
             if (action == 0)
                 return Ok(new { error = -3, error_note = "Action not found!" });
@@ -174,24 +176,40 @@ namespace UrphaCapital.API.Controllers.Payment
 
             if (action == -9)
             {
-                clickTransaction.Status = EOrderPaymentStatus.Failed;
+                var errorTransaction = await _mediator.Send(new UpdateTransactionCommand()
+                {
+                    TransactionId = clickTransId,
+                    Status = EOrderPaymentStatus.Failed,
+                });
+
+                if (errorTransaction.IsSuccess == false && errorTransaction.StatusCode == 404)
+                    return Ok(new { error = -6, error_note = "Transaction isn't exist" });
+
                 return Ok(new { error = -9, error_note = "Transaction cancelled!" });
             }
-
-            await _context.SaveChangesAsync();
-
             #endregion
+
+            var updateCommand = new UpdateTransactionCommand()
+            {
+                TransactionId = clickTransId,
+                Status = EOrderPaymentStatus.Paid,
+            };
+
+            var updateTransaction = await _mediator.Send(updateCommand);
+
+            if (updateTransaction.IsSuccess == false && updateTransaction.StatusCode == 404)
+                return Ok(new { error = -6, error_note = "Transaction isn't exist" });
 
             return Ok(new ComplateResponse()
             {
-                ClickTransId = clickTransaction.ClickTransId,
-                MerchantTransId = clickTransaction.MerchantTransId,
-                MerchantConfirmId = clickTransaction.Id,
+                ClickTransId = clickTransId,
+                MerchantTransId = merchantTransId,
+                MerchantConfirmId = action,
                 Error = 0,
                 ErrorNote = "Success"
             });
-        }
 
+        }
 
         private string GenerateSignString(long clickTransId, int serviceId, string secretKey, string merchantTransId, decimal amount, int action, string signTime)
         {
