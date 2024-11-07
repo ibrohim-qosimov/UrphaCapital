@@ -17,8 +17,7 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers.QueryHandler
 
         public async Task<Student> Handle(GetAllStudentsByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Students.FirstOrDefaultAsync(x => x.Id == request.Id) ??
-                    throw new NotImplementedException();
+            return await _context.Students.FirstOrDefaultAsync(x => x.Id == request.Id);
         }
     }
 }

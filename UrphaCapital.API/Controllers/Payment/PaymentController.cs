@@ -7,6 +7,7 @@ using UrphaCapital.API.Configurations;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.UseCases.Courses.Queries;
+using UrphaCapital.Application.UseCases.StudentsCRUD.Queries;
 using UrphaCapital.Application.ViewModels.PaymentModels;
 using UrphaCapital.Domain.Entities;
 
@@ -55,16 +56,32 @@ namespace UrphaCapital.API.Controllers.Payment
             if (signString != generatedSignString)
                 return Ok(new { error = -1, error_note = "Sign check failed!" });
 
-            #region order exists check
+            #region order and payer exists check
 
-            var query = new GetCourseByIdQuery()
+            var courseTypeCheck = int.TryParse(merchantTransId.ToString().Split(":")[0], out int courseId);
+            var studentTypeCheck = long.TryParse(merchantTransId.ToString().Split(":")[1], out long studentId);
+
+            if (courseTypeCheck != true && studentTypeCheck != true)
+                return BadRequest(new { error = -5, error_note = "Invoice not found!" });
+
+            var courseQuery = new GetCourseByIdQuery()
             {
-                Id = int.Parse(merchantTransId),
+                Id = courseId
             };
 
-            var course = await _mediator.Send(query);
+            var course = await _mediator.Send(courseQuery);
 
             if (course == null)
+                return BadRequest(new { error = -5, error_note = "Invoice not found!" });
+
+            var studentQuery = new GetAllStudentsByIdQuery()
+            {
+                Id = studentId
+            };
+
+            var student = await _mediator.Send(studentQuery);
+
+            if (student == null)
                 return BadRequest(new { error = -5, error_note = "Invoice not found!" });
             #endregion
 
@@ -162,7 +179,7 @@ namespace UrphaCapital.API.Controllers.Payment
             await _context.SaveChangesAsync();
 
             #endregion
-           
+
             return Ok(new ComplateResponse()
             {
                 ClickTransId = clickTransaction.ClickTransId,
