@@ -76,6 +76,9 @@ namespace UrphaCapital.API.Controllers.Payment
             if (course == null)
                 return BadRequest(new { error = -5, error_note = "Invoice not found!" });
 
+            if (course.Price != amount)
+                return BadRequest(new { error = -5, error_note = "Amount is less!" });
+
             var studentQuery = new GetAllStudentsByIdQuery()
             {
                 Id = studentId
@@ -85,6 +88,7 @@ namespace UrphaCapital.API.Controllers.Payment
 
             if (student == null)
                 return BadRequest(new { error = -5, error_note = "Invoice not found!" });
+
             #endregion
 
             #region validation

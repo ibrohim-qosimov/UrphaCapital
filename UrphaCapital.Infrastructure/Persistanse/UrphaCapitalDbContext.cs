@@ -26,6 +26,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<Help> Helps { get; set; }
         public DbSet<ClickTransaction> ClickTransactions { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Ideas> Ideass { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 .HasIndex(i => i.Email)
                     .IsUnique();
 
+            
             modelBuilder.Entity<Student>()
                 .HasIndex(i => i.Email)
                     .IsUnique();
