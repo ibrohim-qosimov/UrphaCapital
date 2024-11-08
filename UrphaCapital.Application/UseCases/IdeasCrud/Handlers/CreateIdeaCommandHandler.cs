@@ -55,14 +55,14 @@ namespace UrphaCapital.Application.UseCases.IdeasCrud.Handlers
                 };
             }
 
-            var result = new Result()
+            var result = new Ideas()
             {
                 PictureUrl = "/IdeaPhotos/" + fileName,
                 Title = request.Title,
                 Description = request.Description
             };
 
-            _context.Results.Add(result);
+            _context.Ideass.Add(result);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new ResponseModel()

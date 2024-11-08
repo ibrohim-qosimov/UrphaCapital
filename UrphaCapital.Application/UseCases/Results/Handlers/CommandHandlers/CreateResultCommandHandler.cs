@@ -49,14 +49,14 @@ namespace UrphaCapital.Application.UseCases.Results.Handlers.CommandHandlers
                 };
             }
 
-            var result = new Ideas()
+            var result = new Result()
             {
-                PictureUrl = "/IdesPhotos/" + fileName,
+                PictureUrl = "/ResultPhotos/" + fileName,
                 Title = request.Title,
                 Description = request.Description
             };
 
-            _context.Ideass.Add(result);
+            _context.Results.Add(result);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new ResponseModel()
