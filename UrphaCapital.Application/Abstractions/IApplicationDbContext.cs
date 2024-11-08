@@ -17,6 +17,7 @@ namespace UrphaCapital.Application.Abstractions
         public DbSet<Result> Results { get; set; }
         public DbSet<Help> Helps { get; set; }
         public DbSet<ClickTransaction> ClickTransactions { get; set; }
+        public DbSet<Ideas> Ideass { get; set; }
 
         ValueTask<int> SaveChangesAsync(CancellationToken cancellationToken = default!);
     }
