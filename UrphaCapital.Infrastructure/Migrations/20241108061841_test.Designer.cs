@@ -13,7 +13,7 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20241026164401_test")]
+    [Migration("20241108061841_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -96,10 +96,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "VEa/Z+RjPUpEsqzRr+dkFucLxvaMjBIOEjpBga1T+3I=",
+                            PasswordHash = "Kul9NyPASE4n+/kKCV3TdKtv5dVvEEy0tY/7YDqtT8Y=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "e5f7d0b9-244e-4366-9543-49201f7f2a73"
+                            Salt = "decaab63-da60-4e84-8e0a-74d224f3eda7"
                         });
                 });
 
@@ -335,6 +335,31 @@ namespace UrphaCapital.Infrastructure.Migrations
                     b.HasIndex("LessonId");
 
                     b.ToTable("Homeworks");
+                });
+
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.Ideas", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ideass");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Lesson", b =>

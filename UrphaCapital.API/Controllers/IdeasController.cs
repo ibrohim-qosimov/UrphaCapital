@@ -31,7 +31,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutIdeas([FromForm] UpdateResultCommand command)
+        public async Task<IActionResult> PutIdeas([FromForm] UpdateIdeaCommand command)
         {
             var result = await _mediator.Send(command);
 

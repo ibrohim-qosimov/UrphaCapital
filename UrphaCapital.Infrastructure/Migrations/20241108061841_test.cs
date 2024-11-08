@@ -66,6 +66,21 @@ namespace UrphaCapital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ideass",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PictureUrl = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ideass", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Mentors",
                 columns: table => new
                 {
@@ -234,7 +249,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "VEa/Z+RjPUpEsqzRr+dkFucLxvaMjBIOEjpBga1T+3I=", "+998934013443", "SuperAdmin", "e5f7d0b9-244e-4366-9543-49201f7f2a73" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "Kul9NyPASE4n+/kKCV3TdKtv5dVvEEy0tY/7YDqtT8Y=", "+998934013443", "SuperAdmin", "decaab63-da60-4e84-8e0a-74d224f3eda7" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_Email",
@@ -297,6 +312,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Homeworks");
+
+            migrationBuilder.DropTable(
+                name: "Ideass");
 
             migrationBuilder.DropTable(
                 name: "Results");
