@@ -34,6 +34,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
                 .HasIndex(i => i.Email)
                     .IsUnique();
 
+            
             modelBuilder.Entity<Student>()
                 .HasIndex(i => i.Email)
                     .IsUnique();
