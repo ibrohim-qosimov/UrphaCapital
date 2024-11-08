@@ -14,6 +14,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         {
             Database.Migrate();
         }
+        public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Answer> Answers { get; set; }
