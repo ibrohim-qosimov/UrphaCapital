@@ -9,11 +9,9 @@ public class RequestResponseLoggingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<RequestResponseLoggingMiddleware> _logger;
-    private readonly IErrorSenderService _telegramService;
-    public RequestResponseLoggingMiddleware(RequestDelegate next, IErrorSenderService telegramService, ILogger<RequestResponseLoggingMiddleware> logger)
+    public RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<RequestResponseLoggingMiddleware> logger)
     {
         _next = next;
-        _telegramService = telegramService;
         _logger = logger;
     }
     public async Task InvokeAsync(HttpContext context)
@@ -58,7 +56,6 @@ public class RequestResponseLoggingMiddleware
                           $"{model.Request.Headers} {model.Request.QueryString} " +
                           $"{model.Response.Body} {model.Response.Headers} " +
                           $"{model.Response.ResponseTime} {model.Response.StatusCode}";
-            await _telegramService.SendError(message);
             // Copy the response body back to the original stream
             newBodyStream.Seek(0, SeekOrigin.Begin);
             await newBodyStream.CopyToAsync(originalBodyStream);
