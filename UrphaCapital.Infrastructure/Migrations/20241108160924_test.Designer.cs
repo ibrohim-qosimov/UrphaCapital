@@ -13,7 +13,7 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    [Migration("20241108061841_test")]
+    [Migration("20241108160924_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -25,6 +25,23 @@ namespace UrphaCapital.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.Announcement", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcements");
+                });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Answer", b =>
                 {
@@ -96,10 +113,10 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "Kul9NyPASE4n+/kKCV3TdKtv5dVvEEy0tY/7YDqtT8Y=",
+                            PasswordHash = "8vrUD0+k5jLEuuaG3byKRFGnHN8jA2Sz1bl9CcDi0sQ=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "decaab63-da60-4e84-8e0a-74d224f3eda7"
+                            Salt = "45d1c088-d7b6-48a6-a7de-261eb8de0a13"
                         });
                 });
 

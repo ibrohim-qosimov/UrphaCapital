@@ -30,6 +30,19 @@ namespace UrphaCapital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Announcements",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Announcements", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClickTransactions",
                 columns: table => new
                 {
@@ -247,7 +260,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "Kul9NyPASE4n+/kKCV3TdKtv5dVvEEy0tY/7YDqtT8Y=", "+998934013443", "SuperAdmin", "decaab63-da60-4e84-8e0a-74d224f3eda7" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "8vrUD0+k5jLEuuaG3byKRFGnHN8jA2Sz1bl9CcDi0sQ=", "+998934013443", "SuperAdmin", "45d1c088-d7b6-48a6-a7de-261eb8de0a13" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_Email",
@@ -298,6 +311,9 @@ namespace UrphaCapital.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Admins");
+
+            migrationBuilder.DropTable(
+                name: "Announcements");
 
             migrationBuilder.DropTable(
                 name: "Answers");
