@@ -95,7 +95,7 @@ namespace UrphaCapital.API
                 options.MultipartBodyLengthLimit = 1_000_000_000;
             });
 
-            services.AddMemoryCache(options => options.SizeLimit = 2048);
+            services.AddMemoryCache();
 
             services.AddControllers()
                             .AddJsonOptions(options =>

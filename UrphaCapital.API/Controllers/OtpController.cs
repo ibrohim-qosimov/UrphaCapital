@@ -30,9 +30,9 @@ namespace UrphaCapital.API.Controllers
         {
             var isValid = _otpService.ValidateOtp(model.Email, model.Otp);
             if (isValid)
-                return Ok(new { Message = "OTP is valid." });
+                return Ok(new { IsValid = true, Message = "OTP is valid." });
 
-            return BadRequest(new { Message = "Invalid or expired OTP." });
+            return BadRequest(new { IsValid = false, Message = "Invalid or expired OTP." });
         }
     }
 }
