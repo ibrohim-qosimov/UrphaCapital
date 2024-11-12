@@ -116,7 +116,7 @@ namespace UrphaCapital.API
                 app.UseSwaggerUI();
             }
 
-            app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseHttpsRedirection();
 
