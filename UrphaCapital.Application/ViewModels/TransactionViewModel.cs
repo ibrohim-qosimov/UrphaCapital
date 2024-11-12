@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Telegram.Bot.Types;
 
 namespace UrphaCapital.Application.ViewModels;
 public class TransactionViewModel
