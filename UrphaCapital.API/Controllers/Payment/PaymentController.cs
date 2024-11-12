@@ -1,11 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.API.Configurations;
-using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.UseCases.ClickTransactions.Commands.CreateCommand;
 using UrphaCapital.Application.UseCases.ClickTransactions.Commands.UpdateCommand;

@@ -1,13 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UrphaCapital.Application.UseCases.IdeasCrud.Commands;
 using UrphaCapital.Application.UseCases.IdeasCrud.Queries;
-using UrphaCapital.Application.UseCases.Mentors.Queries;
-using UrphaCapital.Application.UseCases.Results.Commands;
-using UrphaCapital.Application.UseCases.Results.Queries;
-using UrphaCapital.Application.UseCases.Selects.Queries;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace UrphaCapital.API.Controllers
 {

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
-using UrphaCapital.Domain.Entities;
 
 namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
 {

@@ -20,7 +20,7 @@ namespace UrphaCapital.API.Controllers.Payment
             clickUrl.Append("?service_id=" + _clickConfig.ServiceId);
             clickUrl.Append("&merchant_id=" + _clickConfig.MerchantId);
             clickUrl.Append("&amount=" + amount);
-            clickUrl.Append("&transaction_param="+ orderId + ":" + studentId);
+            clickUrl.Append("&transaction_param=" + orderId + ":" + studentId);
             clickUrl.Append("&return_url=" + returnUrl);
 
             return Ok(clickUrl.ToString());

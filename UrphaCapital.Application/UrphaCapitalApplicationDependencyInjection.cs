@@ -1,12 +1,11 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using UrphaCapital.Application.ExternalServices.AuthServices;
-using UrphaCapital.Application.ExternalServices.ErrorSender;
+using UrphaCapital.Application.ExternalServices.EmailSenderServices;
 using UrphaCapital.Application.ExternalServices.HasherServices;
+using UrphaCapital.Application.ExternalServices.OTPServices;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.UseCases.Courses.Queries;
-using UrphaCapital.Application.UseCases.StudentsCRUD.Handlers.QueryHandler;
 
 namespace UrphaCapital.Application
 {
@@ -18,8 +17,10 @@ namespace UrphaCapital.Application
             services.AddMediatR(typeof(GetAllCoursesQuery).Assembly);
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddSingleton<IErrorSenderService, ErrorSenderService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IOTPService, OTPService>();
+            //services.AddSingleton<IErrorSenderService, ErrorSenderService>();
 
             return services;
         }
