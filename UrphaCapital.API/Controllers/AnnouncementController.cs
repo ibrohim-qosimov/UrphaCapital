@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.AnnouncementCRUD.Commands;
 using UrphaCapital.Application.UseCases.AnnouncementCRUD.Queries;
 using UrphaCapital.Application.UseCases.IdeasCrud.Commands;
@@ -46,6 +47,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IActionResult> GetAnnouncements()
         {
             var query = new GetAllAnnouncementsQuery();

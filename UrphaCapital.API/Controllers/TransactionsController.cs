@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.ClickTransactions.Queries;
 
 namespace UrphaCapital.API.Controllers
@@ -16,6 +17,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IActionResult> GetAllTransactions([FromQuery] long pageIndex, long totalCount)
         {
             var result = await _mediator.Send(new GetAllTransactionsQuery()

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -39,6 +40,7 @@ namespace UrphaCapital.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllHomeworksQuery();

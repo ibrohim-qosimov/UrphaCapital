@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
@@ -36,6 +37,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [EnableRateLimiting(policyName: "sliding")]
         //[Authorize(Roles = "Admin")]
         public async Task<Student> GetStudentById(long id, CancellationToken cancellation)
         {
@@ -47,6 +49,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("get-my-courses/{id}")]
+        [EnableRateLimiting(policyName: "sliding")]
         //[Authorize(Roles = "Admin, Students")]
         public async Task<IEnumerable<Course>> GetMyCoursesById(long id, CancellationToken cancellation)
         {
@@ -58,6 +61,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
+        [EnableRateLimiting(policyName: "sliding")]
         //[Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Student>> GetStudentsByStudentId(int index, int count, CancellationToken cancellation)
         {
@@ -82,7 +86,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpPut("add-course")]
-        //[Authorize(Roles = "Admin, Student")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> AddMyCourse([FromQuery] AddMyCourseCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);

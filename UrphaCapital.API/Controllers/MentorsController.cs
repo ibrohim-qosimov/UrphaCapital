@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.ExternalServices.AuthServices;
 using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
@@ -34,7 +35,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<Mentor> GetById(long id, CancellationToken cancellation)
         {
             var query = new GetMentorByIdQuery { Id = id };
@@ -45,7 +46,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
-        //[Authorize(Roles = "Admin")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IEnumerable<Mentor>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllMentorsQuery()

@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 using System.Text.Json.Serialization;
 using Telegram.Bot;
+using UrphaCapital.API.Middlewares;
 using UrphaCapital.Application;
 using UrphaCapital.Infrastructure;
 
@@ -37,37 +41,34 @@ namespace UrphaCapital.API
                 });
             });
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.SaveToken = true;
-            //    options.RequireHttpsMetadata = false;
-            //    options.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        ValidIssuer = configRoot["JWTSettings:ValidIssuer"],
-            //        ValidAudience = configRoot["JWTSettings:ValidAudience"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configRoot["JWTSettings:SecretKey"]!))
-            //    };
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configRoot["JWTSettings:ValidIssuer"],
+                        ValidAudience = configRoot["JWTSettings:ValidAudence"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configRoot["JWTSettings:Secret"]))
+                    };
+                });
+
+            services.AddAuthorization();
+
             services.AddOptions();
+            
             services.AddHttpClient();
+            
+            
             services.AddUrphaCapitalApplicationDependencyInjection();
             services.AddUrphaCapitalInfrastructureDependencyInjection(configRoot);
-
-
-            services.AddSingleton<TelegramBotClient>(provider =>
-            {
-                var botToken = $"{configRoot.GetSection("TelegramBot").GetSection("API").Value}";
-                return new TelegramBotClient(botToken);
-            });
 
 
             var logger = new LoggerConfiguration()
@@ -107,7 +108,6 @@ namespace UrphaCapital.API
 
 
         }
-
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             if (app.Environment.IsDevelopment())
@@ -116,7 +116,7 @@ namespace UrphaCapital.API
                 app.UseSwaggerUI();
             }
 
-            //app.UseMiddleware<RequestResponseLoggingMiddleware>();
+            // app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseHttpsRedirection();
 

@@ -34,6 +34,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<Admin> GetAdminById(long id, CancellationToken cancellation)
         {
             var query = new GetAdminByIdQuery { Id = id };

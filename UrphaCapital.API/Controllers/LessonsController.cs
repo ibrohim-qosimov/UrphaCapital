@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Lessons.Commands;
 using UrphaCapital.Application.UseCases.Lessons.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -39,6 +40,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("getvideo")]
+        [EnableRateLimiting(policyName: "sliding")]
         // [Authorize(Roles = "Admin, Mentor, Student")]
         public async Task<IActionResult> GetLessonVideo([FromQuery] string lessonId, CancellationToken cancellation)
         {
@@ -59,7 +61,8 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{courseId}/{index}/{count}")]
-        //[Authorize(Roles = "Admin, Mentor, Student")]
+        [EnableRateLimiting(policyName: "sliding")]
+        // [Authorize(Roles = "Admin, Mentor, Student")]
         public async Task<IEnumerable<Lesson>> GetLessonsByCourseId(int courseId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllLessonsByCourseIdQuery()

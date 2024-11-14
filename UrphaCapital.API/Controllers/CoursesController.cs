@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Courses.Commands;
 using UrphaCapital.Application.UseCases.Courses.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -29,6 +30,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("GetById/{id}")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<Course> GetById(int id, CancellationToken cancellation)
         {
             var query = new GetCourseByIdQuery { Id = id };
@@ -39,6 +41,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("GetAllByMentorId/{mentorId}/{index}/{count}")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IEnumerable<Course>> GetAllByMentorId(long mentorId, int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllCoursesByMentorIdQuery()
@@ -54,6 +57,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{index}/{count}")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IEnumerable<Course>> GetAll(int index, int count, CancellationToken cancellation)
         {
             var query = new GetAllCoursesQuery()

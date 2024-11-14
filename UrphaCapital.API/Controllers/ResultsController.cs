@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using UrphaCapital.Application.UseCases.Results.Commands;
 using UrphaCapital.Application.UseCases.Results.Queries;
 
@@ -43,6 +44,7 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet("{size}")]
+        [EnableRateLimiting(policyName: "sliding")]
         public async Task<IActionResult> GetResults(short size)
         {
             var query = new GetResultsQuery { Size = size };

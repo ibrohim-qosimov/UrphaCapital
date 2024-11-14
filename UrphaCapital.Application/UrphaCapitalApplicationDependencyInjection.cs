@@ -20,7 +20,6 @@ namespace UrphaCapital.Application
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IOTPService, OTPService>();
-            //services.AddSingleton<IErrorSenderService, ErrorSenderService>();
 
             return services;
         }

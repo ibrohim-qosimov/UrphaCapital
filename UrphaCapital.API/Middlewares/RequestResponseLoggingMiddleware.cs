@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
-using UrphaCapital.Application.ExternalServices.ErrorSender;
-
 namespace UrphaCapital.API.Middlewares;
 
 public class RequestResponseLoggingMiddleware
