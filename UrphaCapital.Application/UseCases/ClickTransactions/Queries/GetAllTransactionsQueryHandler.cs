@@ -63,8 +63,9 @@ public class GetAllTransactionsQueryHandler : IRequestHandler<GetAllTransactions
                 result.Add(transactionMap);
             }
         }
-
-        return result;
+        var orderedResult = result.OrderByDescending(c => c.PaymentDate).ToList();
+        
+        return orderedResult;
     }
 
 }
