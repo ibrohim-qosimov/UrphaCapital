@@ -110,11 +110,27 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Id = 1L,
                             Email = "admin@gmail.com",
                             Name = "Ozod Ali",
-                            PasswordHash = "8vrUD0+k5jLEuuaG3byKRFGnHN8jA2Sz1bl9CcDi0sQ=",
+                            PasswordHash = "AtdIj/Rv3TlpwyBq/fYvSZEUMg4hRpnTRfIBvLi7Oog=",
                             PhoneNumber = "+998934013443",
                             Role = "SuperAdmin",
-                            Salt = "45d1c088-d7b6-48a6-a7de-261eb8de0a13"
+                            Salt = "b92a3e48-b326-49f7-addb-c2a89640be36"
                         });
+                });
+
+            modelBuilder.Entity("UrphaCapital.Domain.Entities.Auth.GlobalID", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ForUsersid")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GlobalIds");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Auth.Mentor", b =>

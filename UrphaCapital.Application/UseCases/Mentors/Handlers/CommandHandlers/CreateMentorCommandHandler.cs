@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Diagnostics;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.HasherServices;
+using UrphaCapital.Application.UseCases.GlobalIdServices;
 using UrphaCapital.Application.UseCases.Mentors.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
@@ -14,12 +15,14 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
         private readonly IApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IGlobalIdService _globalIdService;
 
-        public CreateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher)
+        public CreateMentorCommandHandler(IApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IPasswordHasher passwordHasher, IGlobalIdService globalIdService)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _passwordHasher = passwordHasher;
+            _globalIdService = globalIdService;
         }
 
         public async Task<ResponseModel> Handle(CreateMentorCommand request, CancellationToken cancellationToken)
@@ -58,6 +61,7 @@ namespace UrphaCapital.Application.UseCases.Mentors.Handlers.CommandHandlers
 
             var mentor = new Mentor()
             {
+                Id = await _globalIdService.GetNextGlobalIdAsync(),
                 Name = request.Name,
                 Description = request.Description,
                 Email = request.Email,

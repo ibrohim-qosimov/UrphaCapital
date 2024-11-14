@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using UrphaCapital.Application.Abstractions;
 using UrphaCapital.Application.ExternalServices.HasherServices;
+using UrphaCapital.Application.UseCases.GlobalIdServices;
 using UrphaCapital.Application.UseCases.StudentsCRUD.Commands;
 using UrphaCapital.Application.ViewModels;
 using UrphaCapital.Domain.Entities.Auth;
@@ -11,11 +12,12 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
     {
         private readonly IApplicationDbContext _context;
         private readonly IPasswordHasher _passwordHasher;
-
-        public CreateStudentCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher)
+        private readonly IGlobalIdService _globalIdService;
+        public CreateStudentCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher, IGlobalIdService globalIdService)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _globalIdService = globalIdService;
         }
 
         public async Task<ResponseModel> Handle(CreateStudentsCommand request, CancellationToken cancellationToken)
@@ -26,6 +28,7 @@ namespace UrphaCapital.Application.UseCases.StudentsCRUD.Handlers
 
             var student = new Student()
             {
+                Id = await _globalIdService.GetNextGlobalIdAsync(),
                 FullName = request.FullName,
                 Address = request.Address,
                 PhoneNumber = request.PhoneNumber,

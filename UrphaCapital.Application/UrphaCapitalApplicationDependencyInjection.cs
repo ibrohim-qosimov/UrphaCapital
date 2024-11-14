@@ -6,6 +6,7 @@ using UrphaCapital.Application.ExternalServices.HasherServices;
 using UrphaCapital.Application.ExternalServices.OTPServices;
 using UrphaCapital.Application.ExternalServices.PaymentProcessing;
 using UrphaCapital.Application.UseCases.Courses.Queries;
+using UrphaCapital.Application.UseCases.GlobalIdServices;
 
 namespace UrphaCapital.Application
 {
@@ -20,6 +21,7 @@ namespace UrphaCapital.Application
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IOTPService, OTPService>();
+            services.AddScoped<IGlobalIdService, GlobalIdService>();
 
             return services;
         }

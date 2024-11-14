@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -58,6 +60,19 @@ namespace UrphaCapital.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClickTransactions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GlobalIds",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ForUsersid = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GlobalIds", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,7 +275,7 @@ namespace UrphaCapital.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Admins",
                 columns: new[] { "Id", "Email", "Name", "PasswordHash", "PhoneNumber", "Role", "Salt" },
-                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "8vrUD0+k5jLEuuaG3byKRFGnHN8jA2Sz1bl9CcDi0sQ=", "+998934013443", "SuperAdmin", "45d1c088-d7b6-48a6-a7de-261eb8de0a13" });
+                values: new object[] { 1L, "admin@gmail.com", "Ozod Ali", "AtdIj/Rv3TlpwyBq/fYvSZEUMg4hRpnTRfIBvLi7Oog=", "+998934013443", "SuperAdmin", "b92a3e48-b326-49f7-addb-c2a89640be36" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_Email",
@@ -320,6 +335,9 @@ namespace UrphaCapital.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ClickTransactions");
+
+            migrationBuilder.DropTable(
+                name: "GlobalIds");
 
             migrationBuilder.DropTable(
                 name: "Helps");

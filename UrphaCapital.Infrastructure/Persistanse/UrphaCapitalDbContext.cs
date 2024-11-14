@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Security.Cryptography;
 using System.Text;
 using UrphaCapital.Application.Abstractions;
@@ -14,6 +15,7 @@ namespace UrphaCapital.Infrastructure.Persistanse
         {
             Database.Migrate();
         }
+        public DbSet<GlobalID> GlobalIds { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -27,6 +29,11 @@ namespace UrphaCapital.Infrastructure.Persistanse
         public DbSet<ClickTransaction> ClickTransactions { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<Ideas> Ideass { get; set; }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await Database.BeginTransactionAsync();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
