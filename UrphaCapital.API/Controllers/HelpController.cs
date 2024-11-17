@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using UrphaCapital.Application.UseCases.Help_.Commands;
+using UrphaCapital.Application.UseCases.Help_.Queries;
 using UrphaCapital.Application.UseCases.Homework.Commands;
 using UrphaCapital.Application.UseCases.Homework.Queries;
 using UrphaCapital.Application.ViewModels;
@@ -19,8 +21,9 @@ namespace UrphaCapital.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost]
-        public async Task<ResponseModel> PostHelp([FromForm] CreateHomeworkCommand command, CancellationToken cancellation)
+        public async Task<ResponseModel> PostHelp([FromBody] CreateHelpCommand command, CancellationToken cancellation)
         {
             var response = await _mediator.Send(command, cancellation);
 
@@ -28,10 +31,10 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ResponseModel> RemoveHelp(long id, CancellationToken cancellation)
         {
-            var command = new DeleteHomeworkCommand { Id = id };
+            var command = new DeleteHelpCommand { Id = id };
 
             var response = await _mediator.Send(command, cancellation);
 
@@ -39,11 +42,11 @@ namespace UrphaCapital.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [EnableRateLimiting(policyName: "sliding")]
-        public async Task<IEnumerable<Homeworks>> GetAll(int index, int count, CancellationToken cancellation)
+        public async Task<IEnumerable<Help>> GetAll(int index, int count, CancellationToken cancellation)
         {
-            var query = new GetAllHomeworksQuery();
+            var query = new GetAllHelpsQuery();
 
             var response = await _mediator.Send(query, cancellation);
 

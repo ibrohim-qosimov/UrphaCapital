@@ -19,10 +19,9 @@ namespace UrphaCapital.Application.UseCases.Help_.Handlers
             var help = new Help()
             {
                 FullName = request.FullName,
-                Address = request.Address,
                 Email = request.Email,
-                CourseType = request.CourseType,
             };
+
             await _context.Helps.AddAsync(help);
             await _context.SaveChangesAsync(cancellationToken);
 
