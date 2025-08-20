@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -96,6 +97,12 @@ namespace UrphaCapital.API
                 options.MultipartBodyLengthLimit = 1_000_000_000;
             });
 
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true; 
+            });
+
             services.AddMemoryCache();
 
             services.AddControllers()
@@ -104,7 +111,27 @@ namespace UrphaCapital.API
                                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                             });
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Urpha Capital",
+                    Description = "Web api for controlling Urpha capital web",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Example Contact",
+                        Url = new Uri("https://example.com/contact")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Example License",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+
+            });
 
 
         }
@@ -113,8 +140,13 @@ namespace UrphaCapital.API
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(u =>
+                {
+                    u.DefaultModelsExpandDepth(-1);
+                });
             }
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
 

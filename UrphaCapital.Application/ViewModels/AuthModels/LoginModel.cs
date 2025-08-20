@@ -1,4 +1,6 @@
-﻿namespace UrphaCapital.Application.ViewModels.AuthModels
+﻿using SB.Common;
+
+namespace UrphaCapital.Application.ViewModels.AuthModels
 {
     public class LoginModel
     {

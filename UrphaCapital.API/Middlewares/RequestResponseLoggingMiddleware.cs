@@ -14,6 +14,7 @@ public class RequestResponseLoggingMiddleware
     }
     public async Task InvokeAsync(HttpContext context)
     {
+        context.Request.EnableBuffering();
         var stopwatch = Stopwatch.StartNew();
         // Read and log request details
         var requestBody = await ReadRequestBodyAsync(context.Request);
