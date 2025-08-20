@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UrphaCapital.Infrastructure.Persistanse;
@@ -12,9 +13,11 @@ using UrphaCapital.Infrastructure.Persistanse;
 namespace UrphaCapital.Infrastructure.Migrations
 {
     [DbContext(typeof(UrphaCapitalDbContext))]
-    partial class UrphaCapitalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113091805_siu1234")]
+    partial class siu1234
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,22 +118,6 @@ namespace UrphaCapital.Infrastructure.Migrations
                             Role = "SuperAdmin",
                             Salt = "1422fb08-4403-4b64-87c3-c4c1f17e3dc5"
                         });
-                });
-
-            modelBuilder.Entity("UrphaCapital.Domain.Entities.Auth.GlobalID", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ForUsersid")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GlobalIds");
                 });
 
             modelBuilder.Entity("UrphaCapital.Domain.Entities.Auth.Mentor", b =>
@@ -306,6 +293,14 @@ namespace UrphaCapital.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CourseType")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
