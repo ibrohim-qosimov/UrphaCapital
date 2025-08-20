@@ -17,8 +17,9 @@ public class GetAllTransactionsQueryHandler : IRequestHandler<GetAllTransactions
     {
         // ClickTransactionsni olish va kerakli student va course id'larini ajratib olish
         var transactions = await _context.ClickTransactions
-            .Where(t => t.MerchantTransId.Contains(":"))
-            .ToListAsync(cancellationToken);
+    .Where(t => t.MerchantTransId.Contains(":"))
+    .OrderByDescending(t => t.SignTime)
+    .ToListAsync(cancellationToken);
 
         var result = new List<TransactionViewModel>();
 
