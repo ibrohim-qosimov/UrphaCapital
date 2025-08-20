@@ -119,5 +119,39 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
 
             return response;
         }
+
+        public TokenModel GenerateToken(User user)
+        {
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:Secret"]!));
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            int expirePeriod = int.Parse(_configuration["JWTSettings:Expire"]!);
+
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture), ClaimValueTypes.Integer64),
+                new Claim("Phone", user.PhoneNumber),
+                new Claim("Role", user.Role.ToString()),
+                new Claim("UserId", user.Id.ToString())
+            };
+
+
+
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: _configuration["JWTSettings:ValidIssuer"],
+                audience: _configuration["JWTSettings:ValidAudence"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expirePeriod),
+                signingCredentials: credentials);
+
+            var response = new TokenModel()
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                isSuccess = true,
+                Message = "Token generated successfully!"
+            };
+
+            return response;
+        }
     }
 }

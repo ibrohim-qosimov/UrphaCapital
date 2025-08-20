@@ -12,6 +12,6 @@ namespace UrphaCapital.Domain.Entities
         public decimal Price { get; set; }
 
         public long MentorId { get; set; }
-        public Mentor Mentor { get; set; }
+        public User Mentor { get; set; }
     }
 }

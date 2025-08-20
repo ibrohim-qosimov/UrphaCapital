@@ -8,6 +8,8 @@ namespace UrphaCapital.Application.Abstractions
     public interface IApplicationDbContext
     {
         Task<IDbContextTransaction> BeginTransactionAsync();
+        DbSet<User> Users { get; }
+        DbSet<UserCourse> UserCourses { get; set; }
         DbSet<GlobalID> GlobalIds { get; set; }
         DbSet<Lesson> Lessons { get; set; }
         DbSet<Course> Courses { get; set; }

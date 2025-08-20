@@ -14,9 +14,6 @@ namespace UrphaCapital.Domain.Entities.Auth
         public string PhoneNumber { get; set; }
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
-
-        public List<Course>? Courses { get; set; }
-
         public EUserRole Role { get; set; }
     }
 

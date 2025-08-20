@@ -8,5 +8,6 @@ namespace UrphaCapital.Application.ExternalServices.AuthServices
         public TokenModel GenerateToken(Student user);
         public TokenModel GenerateToken(Admin user);
         public TokenModel GenerateToken(Mentor user);
+        public TokenModel GenerateToken(User user);
     }
 }
